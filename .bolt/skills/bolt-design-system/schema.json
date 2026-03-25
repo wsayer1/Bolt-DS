@@ -1,0 +1,741 @@
+{
+  "pages": {
+    "getting-started": {
+      "full": "# Getting Started with Bolt Design System\n\n## Overview\n\nThe Bolt Design System (`@blitz/design-system`) is a React component library built for the Bolt product. It provides a set of accessible, themeable UI components built on top of Radix UI primitives with UnoCSS utility-class styling.\n\n**Tech Stack:**\n- React 18 or 19 (peer dependency)\n- UnoCSS for utility classes and token-based color utilities\n- Radix UI for accessible component primitives\n- class-variance-authority (CVA) for variant-based component styling\n- framer-motion for animations\n- tailwind-merge for class merging\n\n## Installation\n\n```bash\nnpm install @blitz/design-system\n```\n\n### Peer Dependencies\n\nEnsure React 18 or React 19 is installed:\n\n```bash\nnpm install react@^18.0 react-dom@^18.0\n# or\nnpm install react@^19.0 react-dom@^19.0\n```\n\n## Setup\n\n### 1. Import Stylesheets\n\nAt the root of your application (e.g. `main.tsx` or `App.tsx`), import the required stylesheets:\n\n```ts\n// UnoCSS theme tokens (CSS custom properties for light and dark themes)\nimport '@blitz/design-system/tokens/unocss/theme.css';\n\n// Prebuilt icon SVGs bundled into CSS classes\nimport '@blitz/design-system/icons.css';\n```\n\n### 2. Configure UnoCSS\n\nThe design system ships a UnoCSS theme extension. Import `unoThemeColors` and add it to your `uno.config.ts`:\n\n```ts\n// uno.config.ts\nimport { defineConfig } from 'unocss';\nimport { unoThemeColors } from '@blitz/design-system/tokens/unocss/theme';\n\nexport default defineConfig({\n  theme: {\n    colors: {\n      'bolt-ds': unoThemeColors,\n    },\n  },\n});\n```\n\nThis enables UnoCSS utility classes like `bg-bolt-ds-brand`, `text-bolt-ds-textPrimary`, `border-bolt-ds-borderOutline`, etc.\n\n### 3. Wrap with BoltDesignSystemProvider\n\nWrap your application root with `BoltDesignSystemProvider` to enable tooltip functionality and any future design system context:\n\n```tsx\nimport { BoltDesignSystemProvider } from '@blitz/design-system';\n\nfunction App() {\n  return (\n    <BoltDesignSystemProvider>\n      {/* Your application */}\n    </BoltDesignSystemProvider>\n  );\n}\n```\n\nThe provider is required when using `Tooltip` or `Button` with `tooltip` prop. You can pass tooltip configuration via the `tooltip` prop:\n\n```tsx\n<BoltDesignSystemProvider tooltip={{ delayDuration: 200 }}>\n```\n\n### 4. Set the Theme\n\nApply a theme by setting the `data-theme` attribute on the root element (usually `<html>` or `<body>`):\n\n```html\n<!-- Light theme (default) -->\n<html data-theme=\"light\">\n\n<!-- Dark theme -->\n<html data-theme=\"dark\">\n```\n\nYou can also toggle programmatically:\n\n```ts\ndocument.documentElement.setAttribute('data-theme', 'dark');\n```\n\nThe `.dark` class is also supported (useful with Tailwind dark mode):\n\n```html\n<html class=\"dark\">\n```\n\n## Basic Usage\n\n```tsx\nimport { Button, Input, Badge, BoltDesignSystemProvider } from '@blitz/design-system';\n\nexport function App() {\n  return (\n    <BoltDesignSystemProvider>\n      <div className=\"bg-bolt-ds-surface min-h-screen p-8\">\n        <h1 className=\"text-bolt-ds-textPrimary text-2xl font-semibold mb-4\">\n          Hello, Bolt!\n        </h1>\n        <div className=\"flex gap-4 items-center\">\n          <Input placeholder=\"Enter something...\" />\n          <Button variant=\"primary\">Submit</Button>\n          <Badge type=\"success\">Active</Badge>\n        </div>\n      </div>\n    </BoltDesignSystemProvider>\n  );\n}\n```\n\n## Available Components\n\nThe design system ships 16 components:\n\n**Atoms:** Alert, Avatar, Badge, Button, Checkbox, DefaultLoader, Dropdown, IconDecoration, Input, Select, Switch, Tooltip\n\n**Organisms:** Dialog, OptionCard, OptionCardGroup, Table\n\n## Package Exports\n\n| Export path | Description |\n|---|---|\n| `@blitz/design-system` | All components and utilities (main entry) |\n| `@blitz/design-system/tokens/unocss/theme` | JS object `unoThemeColors` for UnoCSS config |\n| `@blitz/design-system/tokens/unocss/theme.css` | CSS custom properties for UnoCSS |\n| `@blitz/design-system/tokens/tailwind/v3.css` | Tailwind v3 compatible tokens |\n| `@blitz/design-system/tokens/tailwind/v4.css` | Tailwind v4 `@theme` tokens |\n| `@blitz/design-system/icons.css` | Prebuilt icon CSS classes |\n| `@blitz/design-system/styles/reset.css` | CSS reset stylesheet |\n\n## Important Notes\n\n- **UnoCSS is required** for components to render correctly. Components use UnoCSS-specific utility classes (e.g., `op-50`) that are not available in standard Tailwind CSS.\n- Tailwind v3 and v4 token exports exist for token consumption only — do **not** use them for component styling.\n- The package is ESM-only (`\"type\": \"module\"`).\n- **BoltDesignSystemProvider** should wrap your app root to enable tooltips and future context features.\n",
+      "condensed": "# Getting Started — Bolt Design System\n\nPackage: `@blitz/design-system`. React 18/19 peer deps required.\n\n## Setup (4 steps)\n\n1. Import stylesheets at app root:\n```ts\nimport '@blitz/design-system/tokens/unocss/theme.css';\nimport '@blitz/design-system/icons.css';\n```\n\n2. Configure UnoCSS:\n```ts\n// uno.config.ts\nimport { unoThemeColors } from '@blitz/design-system/tokens/unocss/theme';\nexport default defineConfig({ theme: { colors: { 'bolt-ds': unoThemeColors } } });\n```\n\n3. Wrap app with provider:\n```tsx\nimport { BoltDesignSystemProvider } from '@blitz/design-system';\n<BoltDesignSystemProvider>{/* app */}</BoltDesignSystemProvider>\n```\n\n4. Set theme on root element: `<html data-theme=\"light\">` or `<html data-theme=\"dark\">`\n\n## Usage\n```tsx\nimport { Button, Input } from '@blitz/design-system';\n<Button variant=\"primary\">Submit</Button>\n<div className=\"bg-bolt-ds-surface text-bolt-ds-textPrimary\">...</div>\n```\n\n## Components (16)\n**Atoms:** Alert, Avatar, Badge, Button, Checkbox, DefaultLoader, Dropdown, IconDecoration, Input, Select, Switch, Tooltip\n**Organisms:** Dialog, OptionCard, OptionCardGroup, Table\n\nNote: UnoCSS required (not Tailwind) for component classes to work. BoltDesignSystemProvider required for tooltips.\n"
+    },
+    "foundations--colors": {
+      "full": "# Foundations — Colors\n\n## Overview\n\nBolt's color system is inspired by **Material Design 3** token philosophy. It uses semantic tokens that map to a set of primitive color scales. Tokens are adaptive — they automatically change between light and dark themes based on the `data-theme` attribute on the root element.\n\nAll design tokens are CSS custom properties prefixed with `--bolt-ds-*`. In UnoCSS, they are available as color utilities: `bg-bolt-ds-<tokenName>`, `text-bolt-ds-<tokenName>`, `border-bolt-ds-<tokenName>`, etc.\n\n## Color Primitives\n\nThese are the raw color scales from which semantic tokens are derived:\n\n### Gray Scale\n| Step | Value |\n|------|-------|\n| 0 | `#ffffff` |\n| 50 | `#fafafa` |\n| 100 | `#f5f5f5` |\n| 200 | `#e5e5e5` |\n| 300 | `#d4d4d4` |\n| 400 | `#a3a3a3` |\n| 500 | `#737373` |\n| 600 | `#525252` |\n| 700 | `#404040` |\n| 800 | `#262626` |\n| 900 | `#171717` |\n| 950 | `#101010` |\n\n### Accent Scale (Blue — Brand Color)\n| Step | Value |\n|------|-------|\n| 50 | `#eef9ff` |\n| 100 | `#d8f1ff` |\n| 200 | `#bae7ff` |\n| 300 | `#8adaff` |\n| 400 | `#53c4ff` |\n| 500 | `#2ba6ff` |\n| 600 | `#1488fc` |\n| 700 | `#0d6fe8` |\n| 800 | `#1259bb` |\n| 900 | `#154e93` |\n| 950 | `#122f59` |\n\n### Neutral Scale (Blue-tinted gray)\n| Step | Value |\n|------|-------|\n| 0 | `#fefeff` |\n| 50 | `#fafafd` |\n| 100 | `#f3f3f8` |\n| 200 | `#e9e9f0` |\n| 300 | `#d4d4dd` |\n| 400 | `#a3a3ac` |\n| 500 | `#73737b` |\n| 600 | `#525258` |\n| 700 | `#3c3c41` |\n| 800 | `#2c2c30` |\n| 900 | `#1e1e21` |\n| 950 | `#111114` |\n\n### Green Scale (Success)\n| Step | Value |\n|------|-------|\n| 50 | `#f0fdf4` |\n| 100 | `#dcfce7` |\n| 200 | `#bbf7d0` |\n| 300 | `#86efac` |\n| 400 | `#4ade80` |\n| 500 | `#22c55e` |\n| 600 | `#16a34a` |\n| 700 | `#15803d` |\n| 800 | `#166534` |\n| 900 | `#14532d` |\n| 950 | `#052e16` |\n\n### Orange Scale (Warning)\n| Step | Value |\n|------|-------|\n| 50 | `#fff7ed` |\n| 100 | `#ffedd5` |\n| 200 | `#fed7aa` |\n| 300 | `#fdba74` |\n| 400 | `#fb923c` |\n| 500 | `#f97316` |\n| 600 | `#ea580c` |\n| 700 | `#c2410c` |\n| 800 | `#9a3412` |\n| 900 | `#7c2d12` |\n| 950 | `#431407` |\n\n### Red Scale (Danger)\n| Step | Value |\n|------|-------|\n| 50 | `#fef2f2` |\n| 100 | `#fee2e2` |\n| 200 | `#fecaca` |\n| 300 | `#fca5a5` |\n| 400 | `#f87171` |\n| 500 | `#ef4444` |\n| 600 | `#dc2626` |\n| 700 | `#b91c1c` |\n| 800 | `#991b1b` |\n| 900 | `#7f1d1d` |\n| 950 | `#450a0a` |\n\n## Semantic Token Categories\n\nSemantic tokens are adaptive and change value based on the active theme. There are 8 categories with 46 tokens total.\n\n### Token Naming Pattern (Material Design 3 inspired)\n\n- `--bolt-ds-<color>` — Primary color for a category\n- `--bolt-ds-<color>Highlight` — Lighter/brighter variation for hover states\n- `--bolt-ds-on<Color>` — Text/icons placed ON the primary color (contrast pair)\n- `--bolt-ds-<color>Container` — Background container color (lighter, for cards/badges)\n- `--bolt-ds-on<Color>Container` — Text/icons on the container\n- `--bolt-ds-<color>Outline` — Border/outline color with transparency\n\n### Brand (6 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `brand` | `--bolt-ds-brand` | `#2ba6ff` | `#1488fc` |\n| `brandHighlight` | `--bolt-ds-brandHighlight` | `#53c4ff` | `#2ba6ff` |\n| `onBrand` | `--bolt-ds-onBrand` | `#ffffff` | `#eef9ff` |\n| `brandContainer` | `--bolt-ds-brandContainer` | `#eef9ff` | `#2ba6ff1a` |\n| `onBrandContainer` | `--bolt-ds-onBrandContainer` | `#122f59` | `#2ba6ff` |\n| `brandOutline` | `--bolt-ds-brandOutline` | `#2ba6ff33` | `#2ba6ff1a` |\n\n### Surface (9 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `surface` | `--bolt-ds-surface` | `#fefeff` | `#111114` |\n| `surfaceAltLight` | `--bolt-ds-surfaceAltLight` | `#f3f3f8` | `#1e1e21` |\n| `surfaceAltDark` | `--bolt-ds-surfaceAltDark` | `#f3f3f8` | `#111114` |\n| `surfaceOne` | `--bolt-ds-surfaceOne` | `#fefeff` | `#1e1e21` |\n| `surfaceTwo` | `--bolt-ds-surfaceTwo` | `#e9e9f0` | `#2c2c30` |\n| `surfaceThree` | `--bolt-ds-surfaceThree` | `#d4d4dd` | `#2c2c30` |\n| `surfaceHighlight` | `--bolt-ds-surfaceHighlight` | `#0000000d` | `#ffffff14` |\n| `inverseSurface` | `--bolt-ds-inverseSurface` | `#1e1e21` | `#fefeff` |\n| `inverseOnSurface` | `--bolt-ds-inverseOnSurface` | `#fefeff` | `#1e1e21` |\n\n### Text & Icons (5 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `textPrimary` | `--bolt-ds-textPrimary` | `#111114` | `#fefeff` |\n| `textSecondary` | `--bolt-ds-textSecondary` | `#0a0a0abf` | `#ffffffbf` |\n| `textTertiary` | `--bolt-ds-textTertiary` | `#0a0a0a99` | `#ffffff99` |\n| `iconPrimary` | `--bolt-ds-iconPrimary` | `#111114` | `#fefeff` |\n| `iconSecondary` | `--bolt-ds-iconSecondary` | `#0a0a0a80` | `#ffffff80` |\n\n### Borders (2 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `borderOutline` | `--bolt-ds-borderOutline` | `#0000001a` | `#ffffff1a` |\n| `borderDivider` | `--bolt-ds-borderDivider` | `#00000026` | `#ffffff26` |\n\n### Success (6 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `success` | `--bolt-ds-success` | `#22c55e` | `#16a34a` |\n| `successHighlight` | `--bolt-ds-successHighlight` | `#4ade80` | `#22c55e` |\n| `onSuccess` | `--bolt-ds-onSuccess` | `#f0fdf4` | `#f0fdf4` |\n| `successContainer` | `--bolt-ds-successContainer` | `#f0fdf4` | `#22c55e1a` |\n| `onSuccessContainer` | `--bolt-ds-onSuccessContainer` | `#052e16` | `#22c55e` |\n| `successOutline` | `--bolt-ds-successOutline` | `#22c55e33` | `#22c55e1a` |\n\n### Warning (6 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `warning` | `--bolt-ds-warning` | `#f97316` | `#ea580c` |\n| `warningHighlight` | `--bolt-ds-warningHighlight` | `#fb923c` | `#f97316` |\n| `onWarning` | `--bolt-ds-onWarning` | `#fff7ed` | `#fff7ed` |\n| `warningContainer` | `--bolt-ds-warningContainer` | `#fff7ed` | `#f973161a` |\n| `onWarningContainer` | `--bolt-ds-onWarningContainer` | `#431407` | `#f97316` |\n| `warningOutline` | `--bolt-ds-warningOutline` | `#f9731633` | `#f973161a` |\n\n### Danger (6 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `danger` | `--bolt-ds-danger` | `#ef4444` | `#ef4444` |\n| `dangerHighlight` | `--bolt-ds-dangerHighlight` | `#f87171` | `#f87171` |\n| `onDanger` | `--bolt-ds-onDanger` | `#fef2f2` | `#fef2f2` |\n| `dangerContainer` | `--bolt-ds-dangerContainer` | `#fef2f2` | `#ef44441a` |\n| `onDangerContainer` | `--bolt-ds-onDangerContainer` | `#450a0a` | `#f87171` |\n| `dangerOutline` | `--bolt-ds-dangerOutline` | `#ef444433` | `#ef44441a` |\n\n### Neutral (6 tokens)\n\n| Token | CSS Variable | Light | Dark |\n|-------|-------------|-------|------|\n| `neutral` | `--bolt-ds-neutral` | `#525258` | `#3c3c41` |\n| `neutralHighlight` | `--bolt-ds-neutralHighlight` | `#a3a3ac` | `#73737b` |\n| `onNeutral` | `--bolt-ds-onNeutral` | `#fefeff` | `#f3f3f8` |\n| `neutralContainer` | `--bolt-ds-neutralContainer` | `#fafafd` | `#1e1e21` |\n| `onNeutralContainer` | `--bolt-ds-onNeutralContainer` | `#111114` | `#a3a3ac` |\n| `neutralOutline` | `--bolt-ds-neutralOutline` | `#1111141a` | `#ffffff0d` |\n\n## Using Tokens in Code\n\n### UnoCSS Utility Classes\n\nAfter configuring UnoCSS with `unoThemeColors`, tokens become available as standard UnoCSS color utilities:\n\n```tsx\n// Backgrounds\n<div className=\"bg-bolt-ds-surface\">...</div>\n<div className=\"bg-bolt-ds-brand\">...</div>\n<div className=\"bg-bolt-ds-successContainer\">...</div>\n\n// Text\n<p className=\"text-bolt-ds-textPrimary\">Primary text</p>\n<p className=\"text-bolt-ds-textSecondary\">Secondary text</p>\n\n// Borders\n<div className=\"border border-bolt-ds-borderOutline\">...</div>\n\n// Opacity variants\n<div className=\"text-bolt-ds-brand/50\">50% opacity brand text</div>\n```\n\n### Raw CSS Custom Properties\n\n```css\n.my-element {\n  background-color: rgb(var(--bolt-ds-brand));\n  color: rgb(var(--bolt-ds-onBrand));\n  border-color: var(--bolt-ds-borderOutline);\n}\n```\n\nNote: Some tokens use raw RGB values (for UnoCSS opacity support), others use hex values directly. The `rgb()` wrapper is needed for RGB-formatted tokens.",
+      "condensed": "# Foundations — Colors\n\nInspired by Material Design 3. All tokens: `--bolt-ds-*`. UnoCSS utilities: `bg-bolt-ds-<token>`, `text-bolt-ds-<token>`.\n\nTheme: `data-theme=\"light\"` or `data-theme=\"dark\"` on root element.\n\n## Token naming pattern\n- `<color>` — primary color\n- `<color>Highlight` — lighter/hover variant\n- `on<Color>` — text on primary color\n- `<color>Container` — background container\n- `on<Color>Container` — text on container\n- `<color>Outline` — transparent border\n\n## All 46 semantic tokens (light / dark)\n\n**Brand:** brand `#2ba6ff`/`#1488fc`, brandHighlight `#53c4ff`/`#2ba6ff`, onBrand `#fff`/`#eef9ff`, brandContainer `#eef9ff`/`#2ba6ff1a`, onBrandContainer `#122f59`/`#2ba6ff`, brandOutline `#2ba6ff33`/`#2ba6ff1a`\n\n**Surface:** surface `#fefeff`/`#111114`, surfaceAltLight `#f3f3f8`/`#1e1e21`, surfaceAltDark `#f3f3f8`/`#111114`, surfaceOne `#fefeff`/`#1e1e21`, surfaceTwo `#e9e9f0`/`#2c2c30`, surfaceThree `#d4d4dd`/`#2c2c30`, surfaceHighlight `#0000000d`/`#ffffff14`, inverseSurface `#1e1e21`/`#fefeff`, inverseOnSurface `#fefeff`/`#1e1e21`\n\n**Text & Icons:** textPrimary `#111114`/`#fefeff`, textSecondary `#0a0a0abf`/`#ffffffbf`, textTertiary `#0a0a0a99`/`#ffffff99`, iconPrimary `#111114`/`#fefeff`, iconSecondary `#0a0a0a80`/`#ffffff80`\n\n**Borders:** borderOutline `#0000001a`/`#ffffff1a`, borderDivider `#00000026`/`#ffffff26`\n\n**Success:** success `#22c55e`/`#16a34a`, successHighlight `#4ade80`/`#22c55e`, onSuccess `#f0fdf4`/`#f0fdf4`, successContainer `#f0fdf4`/`#22c55e1a`, onSuccessContainer `#052e16`/`#22c55e`, successOutline `#22c55e33`/`#22c55e1a`\n\n**Warning:** warning `#f97316`/`#ea580c`, warningHighlight `#fb923c`/`#f97316`, onWarning `#fff7ed`/`#fff7ed`, warningContainer `#fff7ed`/`#f973161a`, onWarningContainer `#431407`/`#f97316`, warningOutline `#f9731633`/`#f973161a`\n\n**Danger:** danger `#ef4444`/`#ef4444`, dangerHighlight `#f87171`/`#f87171`, onDanger `#fef2f2`/`#fef2f2`, dangerContainer `#fef2f2`/`#ef44441a`, onDangerContainer `#450a0a`/`#f87171`, dangerOutline `#ef444433`/`#ef44441a`\n\n**Neutral:** neutral `#525258`/`#3c3c41`, neutralHighlight `#a3a3ac`/`#73737b`, onNeutral `#fefeff`/`#f3f3f8`, neutralContainer `#fafafd`/`#1e1e21`, onNeutralContainer `#111114`/`#a3a3ac`, neutralOutline `#1111141a`/`#ffffff0d`"
+    },
+    "foundations--copywriting": {
+      "full": "# Foundations — Copywriting\n\nTone of voice and UX writing guidelines. The single source of truth for how Bolt speaks to users across all touchpoints.\n\n## Brand personality\n\nBolt is empowering, confident, and approachable. We talk to builders — people with ideas who want to move fast.\n\n**We are:**\n- **Empowering** — we put the user's vision first, not our technology\n- **Confident** — we know our product is good, no need to oversell\n- **Direct** — we respect people's time and get to the point\n- **Warm** — we're friendly without being performative\n- **Inclusive** — we write for everyone, regardless of technical background\n\n**We are not:**\n- Hype-driven or startup-bro (\"LFG!\", \"10x your workflow!\")\n- Condescending or overly didactic\n- Robotic or corporate (\"Please be advised that...\")\n- Excessively cute or quirky at the expense of clarity\n\n## Voice vs tone\n\nVoice is constant — it's who Bolt is. Tone adapts to context.\n\n| Context | Tone | Example |\n|---------|------|---------|\n| Onboarding | Encouraging, light | \"Nice — your app is live. Share it with the world.\" |\n| Error state | Calm, helpful, actionable | \"Something went wrong. Try again, or check the status page.\" |\n| Destructive action | Serious, clear | \"This will permanently delete your project. This can't be undone.\" |\n| Empty state | Motivating, not guilt-tripping | \"No projects yet. Start building something.\" |\n| Success | Celebratory but brief | \"Deployed! Your app is live.\" |\n| Settings / admin | Neutral, informative | \"Set a username for your workspace profile page.\" |\n\n## Pronouns and addressing users\n\nWrite from the user's perspective. Bolt is a tool in their hands, not the main character.\n\n### Use \"you\" to address the user\n- Do: \"Your app is ready to deploy.\"\n- Don't: \"We've prepared your app for deployment.\"\n\n### Use \"we\" sparingly\nReserve \"we\" for moments where Bolt (the company/team) is genuinely the actor — like policy decisions, announcements, or support. Avoid \"we\" in product UI.\n- Do: \"We're working on a fix.\" (status page), \"Deploy your project.\" (button)\n- Don't: \"We'll deploy your project for you.\" (UI)\n\n### Avoid \"I\"\nBolt doesn't have a first-person voice in the product. The AI chat may use \"I\" naturally, but chrome UI, settings, navigation, and system messages should not.\n\n### Third-person references\n- Do: \"Bolt handles the deployment.\"\n- Don't: \"The platform will handle the deployment for you.\"\n\n## Capitalization\n\nUse sentence case everywhere. Capitalize only the first word and proper nouns.\n\nSentence case applies to: page titles, section headings, button labels, navigation items, tab labels, table column headers, tooltips, error/success messages, modal titles, and empty states.\n\n**Do:**\n- \"Workspace settings\"\n- \"Leave workspace\"\n- \"Set username\"\n- \"Default monthly member credit limit\"\n\n**Don't:**\n- \"Workspace Settings\"\n- \"Leave Workspace\"\n- \"Set Username\"\n- \"Default Monthly Member Credit Limit\"\n\n**Why not title case?**\n- Sentence case reads more naturally and scans faster\n- Eliminates ambiguity about which words get capitalized\n- Leading design systems (Google Material, Apple HIG, Atlassian, Shopify Polaris, GitLab Pajamas) have adopted sentence case\n- Feels less formal and more aligned with how people actually read interfaces\n\n**Exceptions:**\n- **Proper nouns** are always capitalized: Bolt, Claude, GitHub, Supabase, React\n- **Acronyms** stay uppercase: API, URL, SEO, CTA, AI\n- **Branded features**: Bolt Cloud, WebContainers\n\n## UX writing principles\n\nCore rules for writing clear, scannable UI copy.\n\n**1. Lead with the action or outcome**\n- Do: \"Deploy to a custom domain\"\n- Don't: \"In order to use a custom domain, you need to deploy first\"\n\n**2. Be specific over generic**\n- Do: \"Connect your database\", \"Invite a teammate\"\n- Don't: \"Manage database configuration\", \"Manage team members\"\n\n**3. Keep it short**\nEvery word costs the user's attention. Aim for the fewest words that preserve full clarity.\n- Do: \"No projects yet\"\n- Don't: \"You haven't created any projects yet. Get started by clicking the button below.\"\n\n**4. Write for scanning, not reading**\nUsers don't read UIs — they scan them. Front-load the most important word in every label, heading, and message.\n- Do: \"Token usage this month\"\n- Don't: \"This month's summary of your token usage\"\n\n**5. Use the active voice**\n- Do: \"Enter your workspace name\"\n- Don't: \"Your workspace name should be entered below\"\n\n**6. Avoid double negatives**\n- Do: \"Keep me signed in\"\n- Don't: \"Don't sign me out\"\n\n**7. One thought per message**\nDon't overload a single UI string with multiple ideas. If you need more context, use helper text or progressive disclosure.\n\n## Buttons and CTAs\n\nRules for writing clear, action-oriented button labels:\n- Use sentence case: \"Get started\" not \"Get Started\"\n- Lead with a verb: \"Deploy project\", \"Add member\", \"Set username\"\n- Be specific: \"Save changes\" is better than \"Submit\"\n- Skip articles: \"Add member\" not \"Add a member\"\n- No periods or exclamation marks\n- Keep it to 1–3 words when possible\n\n| Action | Do | Don't |\n|--------|----|-------|\n| Primary action | Get started | Get Started! |\n| Save | Save changes | Submit |\n| Delete | Delete project | Remove |\n| Cancel | Cancel | Go back |\n| Create | Create project | New project |\n| Auth | Sign in / Sign up | Log in / Register |\n| Upgrade | Upgrade plan | Click here to upgrade |\n\n### Destructive actions\nFor irreversible actions, be explicit in the button and add confirmation context:\n- Button: **\"Delete project\"**\n- Confirmation: **\"This will permanently delete _Project name_ and all its data. This can't be undone.\"**\n- Confirm button: **\"Yes, delete project\"**\n- Cancel: **\"Cancel\"**\n\n## Error messages\n\n**Formula:** What happened + what to do next. Optionally, why it happened.\n\n**Do:**\n- \"Couldn't deploy. Check your build logs for errors.\"\n- \"This email is already in use. Try signing in instead.\"\n\n**Don't:**\n- \"Error: 500 Internal Server Error\"\n- \"Something went wrong.\"\n- \"Oops! Looks like something broke.\"\n\n**Rules:**\n- Don't blame the user: \"Couldn't save\" not \"You forgot to fill in the name\"\n- Don't be overly apologetic: one \"sorry\" is fine in genuine failure, skip it for validation\n- Be specific: \"Name must be 50 characters or fewer\" not \"Invalid input\"\n- Always give a next step when possible\n- Skip technical jargon unless it's a developer-facing context\n\n## Empty states\n\nEmpty states are an opportunity, not a dead end. Give the user a path forward.\n\nStructure: **Short headline** + **brief context** (optional) + **CTA**\n\n**Do:**\n- \"No projects yet\"\n- \"Start building something amazing.\"\n- [Create project]\n\n**Don't:**\n- \"It looks like you don't have any projects\"\n- \"You haven't created any projects yet. To get started, click the button below...\"\n- \"[Create Your First Project]\"\n\n## Numbers and formatting\n\n- Use numerals for all numbers: \"3 projects\", \"10 tokens\", \"1 collaborator\"\n- Use \"K\" and \"M\" for large numbers: \"1.2M tokens\", \"26M\"\n- Dates: \"Feb 13, 2026\" — avoid purely numeric formats (ambiguous across locales)\n- Time: use 12-hour format with AM/PM for user-facing UI\n- Currency: \"$25/month\" not \"$25.00/mo\"\n- Percentages: \"98% less errors\" not \"ninety-eight percent fewer errors\"\n\n## Punctuation\n\n- **No periods** on single-sentence UI strings (buttons, labels, headings, toasts)\n- **Use periods** when there are two or more sentences together\n- **No exclamation marks** in product UI — save them for marketing or celebratory moments, used sparingly\n- **Oxford comma**: \"hosting, databases, and integrations\"\n- **Em dashes** (—) for breaks in thought, not hyphens (-) or en dashes (–)\n- **Ellipsis**: use \"…\" for truncation, never for trailing off (\"Loading…\" is fine; \"Well…\" is not)\n\n## Inclusive language\n\n- Default to gender-neutral language: \"they/them\" for unknown users, \"teammate\" not \"manpower\"\n- Don't assume technical proficiency — if writing for a broad audience, skip jargon\n- Avoid ableist language: \"check\" not \"see\", \"select\" not \"hit\", \"review\" not \"look at\"\n- Write for internationalization: avoid idioms, culturally specific references, and humor that doesn't translate\n\n## Terminology\n\nUse consistent terms across the product. Pick one word and stick with it.\n\n| Use | Avoid |\n|-----|-------|\n| Project | App, application, site |\n| Deploy | Ship, launch |\n| Token | Credit, unit |\n| Agent | Model, LLM, AI engine |\n| Sign in / Sign up | Log in / Register / Create account |\n\n## Quick reference checklist\n\nRun through this before shipping any copy:\n\n- [ ] Is it sentence case?\n- [ ] Does it lead with the action or outcome?\n- [ ] Can it be shorter without losing clarity?\n- [ ] Does it use \"you\" (not \"we\" or \"I\")?\n- [ ] Is the terminology consistent with the product glossary?\n- [ ] Is the tone appropriate for the context (error? success? destructive?)?\n- [ ] Is it accessible and jargon-free for the intended audience?\n- [ ] Does it give the user a clear next step?",
+      "condensed": "# Foundations — Copywriting\n\n## Brand personality\nEmpowering, Confident, Direct, Warm, Inclusive. NOT hype-driven, robotic, or overly cute.\n\n## Key rules\n- Use **sentence case** everywhere (not title case). Exceptions: proper nouns (Bolt, GitHub), acronyms (API, URL), branded features\n- Address users as **\"you\"**. Use \"we\" only for company-level communications, not product UI\n- **Lead with action/outcome**, be specific, keep it short, write for scanning\n- Use **active voice**, avoid double negatives, one thought per message\n\n## Buttons/CTAs\n- Verb-first, sentence case, 1-3 words: \"Get started\", \"Save changes\", \"Delete project\"\n- No periods or exclamation marks\n- Sign in/Sign up (not Log in/Register)\n\n## Errors: what happened + next step\n- \"Couldn't deploy. Check your build logs.\"\n- Not: \"Something went wrong.\"\n\n## Empty states: headline + optional context + CTA\n- \"No projects yet\" → \"Start building something.\" → [Create project]\n\n## Punctuation\n- No period on single-sentence UI strings; periods when 2+ sentences\n- Oxford comma; em dash (—) not hyphen; ellipsis for truncation only\n\n## Terminology\nProject (not app), Deploy (not ship), Token (not credit), Agent (not model/LLM), Sign in/up (not Log in/Register)"
+    },
+    "foundations--icons": {
+      "full": "# Foundations — Icons\n\n## Overview\n\nBolt uses UnoCSS-based icon classes via the `@unocss/preset-icons` approach. Icons render as CSS-masked SVG elements using `currentColor` so they respect the text color of their parent.\n\nThere are two icon sources in the design system:\n1. **Prebuilt icon classes** — 5 icons bundled in `icons.css`, always available without UnoCSS setup\n2. **UnoCSS dynamic icon classes** — Access to icon sets like Phosphor Icons (`i-ph:*`) and Heroicons (`i-heroicons:*`), available when using UnoCSS with the icons preset\n\n## Prebuilt Icons (icons.css)\n\nThese 5 icons are bundled into `@blitz/design-system/icons.css` and are available immediately after importing:\n\n| Class | Description |\n|-------|-------------|\n| `i-bolt:check` | Checkmark (20×20px, filled) |\n| `i-bolt:chevron-down` | Chevron pointing down (24×24px) |\n| `i-bolt:chevron-up` | Chevron pointing up (24×24px) |\n| `i-bolt:minus` | Minus/dash (20×20px, filled) |\n| `i-svg-spinners:90-ring-with-bg` | Animated 90-degree loading ring with background ring (24×24px, animated) |\n\nUsage:\n\n```tsx\n// Import the icons stylesheet once at app entry\nimport '@blitz/design-system/icons.css';\n\n// Then use as inline elements\n<span className=\"i-bolt:check text-bolt-ds-success w-4 h-4\" />\n<span className=\"i-bolt:chevron-down text-bolt-ds-iconPrimary w-6 h-6\" />\n<span className=\"i-bolt:chevron-up text-bolt-ds-iconPrimary w-6 h-6\" />\n<span className=\"i-bolt:minus text-bolt-ds-iconSecondary w-4 h-4\" />\n<span className=\"i-svg-spinners:90-ring-with-bg text-bolt-ds-brand w-6 h-6\" />\n```\n\n## UnoCSS Dynamic Icon Classes\n\nWhen using UnoCSS with the icons preset (e.g., `@unocss/preset-icons`), you get access to any icon from the Iconify ecosystem. Components in the design system use these icon sets:\n\n### Phosphor Icons (`i-ph:*`)\n\nPhosphor Icons are used extensively by components for UI icons. Add the `@iconify-json/ph` package to your project to enable them:\n\n```bash\nnpm install @iconify-json/ph\n```\n\nExample classes used in components:\n```tsx\n<span className=\"i-ph:warning-circle\" />\n<span className=\"i-ph:check-circle\" />\n<span className=\"i-ph:info\" />\n<span className=\"i-ph:x-circle\" />\n<span className=\"i-ph:user\" />\n<span className=\"i-ph:eye\" />\n<span className=\"i-ph:eye-slash\" />\n```\n\n### Heroicons (`i-heroicons:*`)\n\nSome components also reference Heroicons. Add `@iconify-json/heroicons` if needed:\n\n```bash\nnpm install @iconify-json/heroicons\n```\n\n## UnoCSS Configuration for Icons\n\nTo use dynamic icon classes (beyond the prebuilt icons.css), configure UnoCSS with the icons preset:\n\n```ts\n// uno.config.ts\nimport { defineConfig, presetIcons } from 'unocss';\nimport { unoThemeColors } from '@blitz/design-system/tokens/unocss/theme';\n\nexport default defineConfig({\n  presets: [\n    presetIcons({\n      scale: 1.2,\n      warn: true,\n    }),\n  ],\n  theme: {\n    colors: {\n      'bolt-ds': unoThemeColors,\n    },\n  },\n});\n```\n\n## Icon Sizing and Coloring\n\nIcons inherit size from their `width`/`height` CSS properties and color from `currentColor`. Override them with UnoCSS utilities:\n\n```tsx\n// Sizing\n<span className=\"i-bolt:check w-4 h-4\" />   {/* 16px */}\n<span className=\"i-bolt:check w-5 h-5\" />   {/* 20px */}\n<span className=\"i-bolt:check w-6 h-6\" />   {/* 24px */}\n\n// Coloring\n<span className=\"i-bolt:check text-bolt-ds-success\" />\n<span className=\"i-bolt:check text-bolt-ds-brand\" />\n<span className=\"i-bolt:chevron-down text-bolt-ds-iconPrimary\" />\n<span className=\"i-bolt:chevron-down text-bolt-ds-iconSecondary\" />\n```\n\n## Implementation Details\n\nIcons in `icons.css` work via CSS masking. They use:\n- `--un-icon`: A `url()` data URI for the SVG\n- `-webkit-mask` / `mask`: CSS mask with the icon URL\n- `background-color: currentColor`: Inherits text color\n- Default dimensions from the viewBox (1em or 24px)\n\nThis means icon colors follow the CSS `color` property of their parent or the element itself.",
+      "condensed": "# Foundations — Icons\n\n## Prebuilt icons (import `@blitz/design-system/icons.css`)\n\n5 bundled icons available as CSS classes:\n- `i-bolt:check` — checkmark\n- `i-bolt:chevron-down` — chevron down\n- `i-bolt:chevron-up` — chevron up\n- `i-bolt:minus` — minus/dash\n- `i-svg-spinners:90-ring-with-bg` — animated loading spinner\n\nUsage: `<span className=\"i-bolt:check text-bolt-ds-success w-4 h-4\" />`\n\n## Dynamic icons (UnoCSS preset)\n\nComponents use `i-ph:*` (Phosphor) and `i-heroicons:*` (Heroicons) via UnoCSS preset-icons.\n\nInstall icon data: `npm install @iconify-json/ph @iconify-json/heroicons`\n\nConfigure:\n```ts\nimport { presetIcons } from 'unocss';\n// uno.config.ts presets: [presetIcons()]\n```\n\nColor via `text-*` class, size via `w-*/h-*` utilities."
+    },
+    "foundations--spacing": {
+      "full": "# Spacing\n\nSpacing scale and component sizing for the Bolt Design System.\n\n## Spacing Scale\n\n4px base unit. Use UnoCSS (Tailwind-compatible) utility classes for spacing.\n\n| Class | Value |\n|-------|-------|\n| `p-0` | 0px |\n| `p-0.5` | 2px |\n| `p-1` | 4px |\n| `p-2` | 8px |\n| `p-3` | 12px |\n| `p-4` | 16px |\n| `p-5` | 20px |\n| `p-6` | 24px |\n| `p-8` | 32px |\n| `p-10` | 40px |\n| `p-12` | 48px |\n| `p-16` | 64px |\n\nThe same scale applies to margin (`m-*`), gap (`gap-*`), and other spacing utilities.\n\n## Component Sizing\n\nStandard sizes for buttons, inputs, and interactive elements.\n\n| Size | Height | Padding | Icon Size |\n|------|--------|---------|----------|\n| `sm` | 32px | 8px 12px | 16px |\n| `md` | 40px | 12px 16px | 20px |\n| `lg` | 48px | 16px 20px | 24px |\n\nMost interactive components (Button, Input, Select) support `sm`, `md`, and `lg` sizes. Some also support `xs` (smaller than `sm`) and `xl` (larger than `lg`).\n\n## Usage Guidelines\n\n- Use the 4px grid consistently for all layouts and components.\n- Prefer spacing tokens (`p-4`, `gap-6`, etc.) over arbitrary pixel values.\n- Internal component padding typically uses `p-2` to `p-4` for compact areas and `p-6` to `p-8` for larger content areas.\n- Use `gap-*` for flex and grid layouts rather than margin on individual children.",
+      "condensed": "# Spacing\n\n4px base unit. Use UnoCSS utility classes.\n\n| Class | Value |\n|-------|-------|\n| `p-0` | 0px | `p-0.5` | 2px | `p-1` | 4px | `p-2` | 8px | `p-3` | 12px | `p-4` | 16px | `p-5` | 20px | `p-6` | 24px | `p-8` | 32px | `p-10` | 40px | `p-12` | 48px | `p-16` | 64px |\n\n## Component Sizes\n\n| Size | Height | Padding |\n|------|--------|---------|\n| `sm` | 32px | 8px 12px |\n| `md` | 40px | 12px 16px |\n| `lg` | 48px | 16px 20px |"
+    },
+    "theming": {
+      "full": "# Theming\n\nThe Bolt Design System supports two themes: **light** and **dark**. The default template uses the **dark** theme.\n\n## Switching Themes\n\nThemes are controlled by a `data-theme` attribute on the root `<html>` element:\n\n```html\n<!-- Dark theme (default) -->\n<html data-theme=\"dark\">\n\n<!-- Light theme -->\n<html data-theme=\"light\">\n```\n\nIn React, update the attribute dynamically:\n\n```tsx\n// Switch to light theme\ndocument.documentElement.setAttribute('data-theme', 'light');\n\n// Switch to dark theme\ndocument.documentElement.setAttribute('data-theme', 'dark');\n```\n\nOr set it in your HTML entry file:\n\n```html\n<!-- index.html -->\n<!DOCTYPE html>\n<html lang=\"en\" data-theme=\"dark\">\n  ...\n</html>\n```\n\n## UnoCSS Dark Mode Configuration\n\nThe design system uses UnoCSS for styling. The dark mode selector must be configured in `uno.config.ts`:\n\n```ts\nimport { defineConfig } from 'unocss';\nimport { unoThemeColors } from '@blitz/design-system/tokens/unocss/theme';\n\nexport default defineConfig({\n  theme: {\n    colors: unoThemeColors,\n  },\n  dark: {\n    light: '[data-theme=\"light\"]',\n    dark: '[data-theme=\"dark\"]',\n  },\n});\n```\n\n## CSS Token Variables\n\nTokens are defined in `theme.css` imported as:\n\n```ts\nimport '@blitz/design-system/tokens/unocss/theme.css';\n```\n\nThe CSS file uses `:root[data-theme='light']` and `:root[data-theme='dark']` selectors (with `:root` alone aliased to light):\n\n```css\n/* Light theme tokens (default) */\n:root, :root[data-theme='light'] {\n  --bolt-ds-brand: 43 166 255;\n  --bolt-ds-surface: 254 254 255;\n  --bolt-ds-textPrimary: 17 17 20;\n  /* ... */\n}\n\n/* Dark theme tokens */\n.dark, :root[data-theme='dark'] {\n  --bolt-ds-brand: 20 136 252;\n  --bolt-ds-surface: 17 17 20;\n  --bolt-ds-textPrimary: 254 254 255;\n  /* ... */\n}\n```\n\n## Token Values Per Theme\n\n### Brand Tokens\n\n| Token | Light | Dark |\n|-------|-------|------|\n| `--bolt-ds-brand` | `rgb(43 166 255)` | `rgb(20 136 252)` |\n| `--bolt-ds-brandHighlight` | `rgb(83 196 255)` | `rgb(43 166 255)` |\n| `--bolt-ds-onBrand` | `rgb(255 255 255)` | `rgb(238 249 255)` |\n| `--bolt-ds-brandContainer` | `#eef9ff` | `#2ba6ff1a` |\n| `--bolt-ds-onBrandContainer` | `rgb(18 47 89)` | `rgb(43 166 255)` |\n| `--bolt-ds-brandOutline` | `#2ba6ff33` | `#2ba6ff1a` |\n\n### Surface Tokens\n\n| Token | Light | Dark |\n|-------|-------|------|\n| `--bolt-ds-surface` | `rgb(254 254 255)` | `rgb(17 17 20)` |\n| `--bolt-ds-surfaceAltLight` | `rgb(243 243 248)` | `rgb(30 30 33)` |\n| `--bolt-ds-surfaceAltDark` | `rgb(243 243 248)` | `rgb(17 17 20)` |\n| `--bolt-ds-surfaceOne` | `rgb(254 254 255)` | `rgb(30 30 33)` |\n| `--bolt-ds-surfaceTwo` | `rgb(233 233 240)` | `rgb(44 44 48)` |\n| `--bolt-ds-surfaceThree` | `rgb(212 212 221)` | `rgb(44 44 48)` |\n| `--bolt-ds-surfaceHighlight` | `#0000000d` | `#ffffff14` |\n| `--bolt-ds-inverseSurface` | `rgb(30 30 33)` | `rgb(254 254 255)` |\n| `--bolt-ds-inverseOnSurface` | `rgb(254 254 255)` | `rgb(30 30 33)` |\n\n### Text & Icon Tokens\n\n| Token | Light | Dark |\n|-------|-------|------|\n| `--bolt-ds-textPrimary` | `rgb(17 17 20)` | `rgb(254 254 255)` |\n| `--bolt-ds-textSecondary` | `#0a0a0abf` | `#ffffffbf` |\n| `--bolt-ds-textTertiary` | `#0a0a0a99` | `#ffffff99` |\n| `--bolt-ds-iconPrimary` | `rgb(17 17 20)` | `rgb(254 254 255)` |\n| `--bolt-ds-iconSecondary` | `#0a0a0a80` | `#ffffff80` |\n\n### Border Tokens\n\n| Token | Light | Dark |\n|-------|-------|------|\n| `--bolt-ds-borderOutline` | `#0000001a` | `#ffffff1a` |\n| `--bolt-ds-borderDivider` | `#00000026` | `#ffffff26` |\n\n## Customizing Theme Colors\n\nOverride `--bolt-ds-*` CSS custom properties in your own stylesheet after importing `theme.css`:\n\n```css\n/* Custom brand color override */\n:root[data-theme='dark'] {\n  --bolt-ds-brand: 120 80 255;  /* purple brand instead of blue */\n  --bolt-ds-brandHighlight: 150 110 255;\n  --bolt-ds-onBrandContainer: 120 80 255;\n}\n\n:root[data-theme='light'] {\n  --bolt-ds-brand: 100 60 240;\n  --bolt-ds-brandHighlight: 130 90 255;\n  --bolt-ds-onBrandContainer: 18 10 60;\n}\n```\n\nNote: Many token values are stored as space-separated RGB triplets (without `rgb()` wrapper) to support UnoCSS opacity modifiers like `bg-bolt-ds-brand/50`.\n\n## Using Tokens in UnoCSS\n\n```tsx\n// Background using brand color\n<div className=\"bg-bolt-ds-brand\">\n\n// Text color\n<p className=\"text-bolt-ds-textPrimary\">\n\n// With opacity\n<div className=\"bg-bolt-ds-brand/20\">\n\n// Surface colors\n<div className=\"bg-bolt-ds-surface\">\n<div className=\"bg-bolt-ds-surfaceOne\">\n```\n\n## Default Template Configuration\n\nThe default template uses `data-theme=\"dark\"`. To switch to light:\n\n1. In `index.html`: change `data-theme=\"dark\"` to `data-theme=\"light\"`\n2. That's it — all component tokens will automatically use their light-mode values.",
+      "condensed": "# Theming\n\nTwo themes: **light** and **dark**. Default: **dark**.\n\n## Switching\n\n```html\n<html data-theme=\"dark\">  <!-- or \"light\" -->\n```\n\n```ts\ndocument.documentElement.setAttribute('data-theme', 'light');\n```\n\n## UnoCSS Config\n\n```ts\nexport default defineConfig({\n  theme: { colors: unoThemeColors },\n  dark: {\n    light: '[data-theme=\"light\"]',\n    dark: '[data-theme=\"dark\"]',\n  },\n});\n```\n\n## CSS Structure\n\n- Light: `:root, :root[data-theme='light'] { ... }`\n- Dark: `.dark, :root[data-theme='dark'] { ... }`\n- Tokens prefixed: `--bolt-ds-*`\n- Import: `import '@blitz/design-system/tokens/unocss/theme.css'`\n\n## Customizing Colors\n\n```css\n:root[data-theme='dark'] {\n  --bolt-ds-brand: 120 80 255; /* RGB triplet, no rgb() wrapper */\n}\n```\n\n## Key Token Values (Dark / Light)\n\n- `--bolt-ds-brand`: `20 136 252` / `43 166 255`\n- `--bolt-ds-surface`: `17 17 20` / `254 254 255`\n- `--bolt-ds-textPrimary`: `254 254 255` / `17 17 20`\n- `--bolt-ds-surfaceOne`: `30 30 33` / `254 254 255`"
+    },
+    "components--overview": {
+      "full": "# Components Overview\n\nThe Bolt Design System provides 16 React components built on Radix UI primitives and styled with UnoCSS.\n\n## Installation & Setup\n\n```bash\nnpm install @blitz/design-system\n```\n\nImport required stylesheets at your app entry point:\n\n```ts\nimport '@blitz/design-system/tokens/unocss/theme.css';\nimport '@blitz/design-system/icons.css';\n```\n\nWrap your app with the provider:\n\n```tsx\nimport { BoltDesignSystemProvider } from '@blitz/design-system';\n\n<BoltDesignSystemProvider>\n  {/* Your app */}\n</BoltDesignSystemProvider>\n```\n\nConfigure UnoCSS with the design system color tokens:\n\n```ts\n// uno.config.ts\nimport { defineConfig } from 'unocss';\nimport { unoThemeColors } from '@blitz/design-system/tokens/unocss/theme';\n\nexport default defineConfig({\n  theme: {\n    colors: unoThemeColors,\n  },\n  dark: {\n    light: '[data-theme=\"light\"]',\n    dark: '[data-theme=\"dark\"]',\n  },\n});\n```\n\n## Importing Components\n\nAll components are exported from the main package:\n\n```ts\nimport { ComponentName } from '@blitz/design-system';\n```\n\nExamples:\n\n```ts\nimport { Button, Input, Dialog, Table, Alert, OptionCard } from '@blitz/design-system';\nimport * as Tooltip from '@blitz/design-system'; // Tooltip uses namespace export\n```\n\n## Component List\n\n### Atoms (simple, standalone)\n\n| Component | Description |\n|-----------|-------------|\n| **Alert** | Feedback banners with types: neutral, info, success, warning, danger |\n| **Avatar** | User profile image or initials/icon fallback |\n| **Badge** | Status or category label pill |\n| **Button** | Primary interactive element with multiple variants and sizes |\n| **Checkbox** | Boolean toggle built on Radix Checkbox |\n| **DefaultLoader** | Spinner/loading indicator (also used inside Button) |\n| **Dropdown** | Context menu with trigger and item slots |\n| **IconDecoration** | Styled icon container with shape and color variants |\n| **Input** | Text input with label, hint, error, and warning states |\n| **Select** | Dropdown select with label, error support, and ghost variant |\n| **Switch** | Toggle switch built on Radix Switch |\n| **Tooltip** | Hover tooltip built on Radix Tooltip (namespace export) |\n\n### Organisms (complex, composed)\n\n| Component | Description |\n|-----------|-------------|\n| **Dialog** | Modal dialog with header, content, and action sub-components |\n| **OptionCard** | Card for displaying settings/choices with title, description, and action |\n| **OptionCardGroup** | Wrapper for OptionCards with dividers between items |\n| **Table** | Data table with header, body, footer, row, and cell sub-components |\n\n## Provider\n\n**BoltDesignSystemProvider** wraps the application to supply required context (currently Radix Tooltip provider). Required when using `Tooltip` or `Button` with `tooltip` prop.\n\n## Technical Foundation\n\n- **Radix UI**: Provides accessible primitives for Checkbox, Dialog, Dropdown, Select, Switch, Tooltip.\n- **UnoCSS**: Required styling engine. Components use UnoCSS-specific classes (e.g., `op-50`, `i-bolt:*`).\n- **class-variance-authority (CVA)**: Used for variant-based class generation (Button, IconDecoration).\n- **framer-motion**: Used for animations in Dialog and other animated components.\n\n## Icon Classes\n\nComponents use icon classes in the format `i-ph:icon-name` (Phosphor icons) and `i-bolt:icon-name` (bundled icons).\n\nBundled icons available in `icons.css`:\n- `i-bolt:check`\n- `i-bolt:chevron-down`\n- `i-bolt:chevron-up`\n- `i-bolt:minus`\n- `i-svg-spinners:90-ring-with-bg`\n\nFor other icons, use UnoCSS icon preset with Phosphor icons (`@iconify-json/ph`).\n",
+      "condensed": "# Components Overview\n\nPackage: `@blitz/design-system`. 16 React components on Radix UI + UnoCSS.\n\n## Setup\n\n```ts\nimport '@blitz/design-system/tokens/unocss/theme.css';\nimport '@blitz/design-system/icons.css';\n```\n\n```tsx\nimport { BoltDesignSystemProvider, Button, Input, Alert, Dialog, Table, OptionCard } from '@blitz/design-system';\nimport * as Tooltip from '@blitz/design-system';\n\n// Wrap app with provider (required for tooltips):\n<BoltDesignSystemProvider>{/* app */}</BoltDesignSystemProvider>\n```\n\n## Components\n\n**Atoms**: Alert, Avatar, Badge, Button, Checkbox, DefaultLoader, Dropdown, IconDecoration, Input, Select, Switch, Tooltip\n\n**Organisms**: Dialog (+ DialogHeader, DialogContent, DialogActions, DialogButton, DialogClose, DialogImageHeader, HiddenDialogTitle), OptionCard (+ OptionCardGroup), Table (+ TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell)\n\n## Icons\n\nBundled: `i-bolt:check`, `i-bolt:chevron-down`, `i-bolt:chevron-up`, `i-bolt:minus`, `i-svg-spinners:90-ring-with-bg`. Other icons via UnoCSS icon preset (Phosphor: `i-ph:*`).\n"
+    },
+    "components--atoms": {
+      "full": "# Components - Atoms\n\nAtoms are simple, standalone components. Import from `@blitz/design-system`.\n\n## Alert\n\nFeedback banner for inline notifications.\n\n```tsx\nimport { Alert } from '@blitz/design-system';\n\n<Alert\n  type=\"success\"\n  title=\"Operation complete\"\n  onClose={() => {}}\n>\n  Your changes have been saved.\n</Alert>\n```\n\n### AlertProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `title` | `ReactNode` | — | Alert heading |\n| `children` | `ReactNode` | — | Alert body content |\n| `actions` | `ReactNode` | — | Action buttons rendered below content |\n| `alignActions` | `'start' \\| 'center' \\| 'end'` | — | Alignment of actions |\n| `direction` | `'column' \\| 'row'` | — | Layout direction |\n| `type` | `'neutral' \\| 'info' \\| 'success' \\| 'warning' \\| 'danger'` | `'neutral'` | Visual style variant |\n| `className` | `string` | — | Root class override |\n| `iconClassName` | `string` | — | Icon class override |\n| `titleClassName` | `string` | — | Title class override |\n| `contentClassName` | `string` | — | Content class override |\n| `onClose` | `() => void` | — | Callback when close button clicked |\n\n---\n\n## Avatar\n\nUser profile picture with fallback options.\n\n```tsx\nimport { Avatar } from '@blitz/design-system';\n\n<Avatar\n  user={{ name: 'Jane Smith', avatar: '/profile.png' }}\n  size=\"md\"\n  type=\"circle\"\n  fallback=\"initials\"\n/>\n```\n\n### AvatarProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `user` | `{ name?: string; avatar?: string }` | — | User data |\n| `size` | `'xxs' \\| 'xs' \\| 'sm' \\| 'md' \\| 'lg' \\| 'xl' \\| '2xl'` | `'md'` | Avatar dimensions |\n| `type` | `'circle' \\| 'rounded'` | `'circle'` | Shape |\n| `fallback` | `'icon' \\| 'initials'` | `'icon'` | What to show when no avatar image |\n| `className` | `string` | — | Class override |\n\n---\n\n## Badge\n\nSmall label pill for status or category.\n\n```tsx\nimport { Badge } from '@blitz/design-system';\n\n<Badge type=\"success\">Active</Badge>\n<Badge type=\"danger\" icon=\"i-ph:warning\" />\n```\n\n### BadgeProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `type` | `'neutral' \\| 'brand' \\| 'success' \\| 'warning' \\| 'danger'` | `'neutral'` | Color variant |\n| `icon` | `string` | — | UnoCSS icon class. When provided, renders a circular icon badge instead of a text pill |\n| `className` | `string` | — | Class override |\n\n---\n\n## Button\n\nPrimary interactive element. Supports variants, sizes, icons, tooltips, and loading state.\n\n```tsx\nimport { Button } from '@blitz/design-system';\n\n<Button variant=\"primary\" size=\"md\" onClick={() => {}}>Click Me</Button>\n<Button variant=\"secondary\" startIcon=\"i-ph:plus\" loading={isLoading}>Add Item</Button>\n<Button variant=\"ghost\" icon=\"i-ph:trash\" tint=\"danger\" />\n```\n\n### ButtonProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `variant` | `'primary' \\| 'secondary' \\| 'tint' \\| 'ghost' \\| 'high-contrast' \\| 'link-gray' \\| 'link-color'` | `'primary'` | Visual style |\n| `size` | `'lg' \\| 'md' \\| 'sm' \\| 'xs'` | `'md'` | Button dimensions |\n| `icon` | `string` | — | UnoCSS icon class for icon-only button |\n| `startIcon` | `string` | — | Icon before label |\n| `endIcon` | `string` | — | Icon after label |\n| `tint` | `'brand' \\| 'success' \\| 'warning' \\| 'danger'` | — | Color tint (used with `tint` variant) |\n| `loading` | `boolean` | `false` | Show loading spinner |\n| `loader` | `ReactNode` | — | Custom loader element |\n| `disabled` | `boolean` | `false` | Disabled state |\n| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |\n| `truncate` | `boolean` | `false` | Truncate label text |\n| `type` | `'button' \\| 'submit' \\| 'reset'` | `'button'` | HTML button type |\n| `iconClassName` | `string` | — | Icon class override |\n| `tooltip` | `ButtonTooltip` | — | Tooltip configuration |\n\n`ButtonTooltip`: `{ content: ReactNode; side?: Side; align?: Align; sideOffset?: number; maxWidth?: number }`\n\n---\n\n## Checkbox\n\nBoolean toggle built on Radix Checkbox.\n\n```tsx\nimport { Checkbox } from '@blitz/design-system';\n\n<Checkbox\n  checked={isChecked}\n  onChange={(checked) => setIsChecked(checked === true)}\n/>\n```\n\n### CheckboxProps\n\nExtends Radix `CheckboxProps` with:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `onChange` | `(checked: CheckedState) => void` | Change handler. `CheckedState` is `boolean \\| 'indeterminate'` |\n\nAll other Radix Checkbox props (e.g., `defaultChecked`, `disabled`, `required`, `name`, `value`) are also supported.\n\n---\n\n## Dropdown\n\nContext menu with a customizable trigger and item list.\n\n```tsx\nimport { Button, Dropdown } from '@blitz/design-system';\n\n<Dropdown trigger={<Button variant=\"secondary\">Options</Button>}>\n  <Dropdown.Item onClick={() => console.log('edit')}>Edit</Dropdown.Item>\n  <Dropdown.Item onClick={() => console.log('delete')} disabled>Delete</Dropdown.Item>\n</Dropdown>\n```\n\n### DropdownProps\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `trigger` | `ReactNode \\| (({ open }) => ReactNode)` | Trigger element or render function |\n| `open` | `boolean` | Controlled open state |\n| `onOpenChange` | `(isOpen: boolean) => void` | Open state change handler |\n| `disabled` | `boolean` | Disable the trigger |\n| `contentProps` | `DropdownMenuContentProps` | Radix content props (alignment, side, etc.) |\n\n### Dropdown.Item Props\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `onClick` | `() => void` | Click handler |\n| `disabled` | `boolean` | Disable the item |\n| `className` | `string` | Class override |\n\n---\n\n## IconDecoration\n\nStyled container for displaying an icon with background shape and color.\n\n```tsx\nimport { IconDecoration } from '@blitz/design-system';\n\n<IconDecoration\n  icon=\"i-ph:star\"\n  variant=\"brand\"\n  size=\"md\"\n  shape=\"squircle\"\n/>\n```\n\n### IconDecorationProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `icon` | `string` | — | **Required.** UnoCSS icon class |\n| `variant` | `'default' \\| 'brand' \\| 'success' \\| 'warning' \\| 'danger' \\| 'neutral'` | `'default'` | Color variant |\n| `size` | `'xs' \\| 'sm' \\| 'md' \\| 'lg' \\| 'xl'` | `'md'` | Container size |\n| `shape` | `'rounded' \\| 'squircle' \\| 'circle'` | `'rounded'` | Container shape |\n| `iconClassName` | `string` | — | Class override for icon element |\n\n---\n\n## Input\n\nText input field with label, hint, error, and warning states.\n\n```tsx\nimport { Input } from '@blitz/design-system';\n\n<Input\n  label=\"Email\"\n  placeholder=\"you@example.com\"\n  hint=\"We'll never share your email\"\n  value={email}\n  onValueChange={setEmail}\n/>\n\n<Input\n  label=\"Username\"\n  error=\"Username is taken\"\n  size=\"sm\"\n/>\n```\n\n### InputProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `label` | `ReactNode` | — | Label above the input |\n| `placeholder` | `string` | — | Input placeholder |\n| `variant` | `'vertical' \\| 'horizontal'` | `'vertical'` | Layout variant |\n| `size` | `'md' \\| 'sm'` | `'md'` | Input height |\n| `error` | `ReactNode` | — | Error message (shown below input) |\n| `warning` | `boolean` | `false` | Warning styling state |\n| `hint` | `ReactNode` | — | Helper text below input |\n| `disabled` | `boolean` | `false` | Disabled state |\n| `onValueChange` | `(value: string) => void` | — | Value change handler |\n| `inputClassName` | `string` | — | Class override for inner input |\n| `labelTooltip` | `string` | — | Tooltip text shown next to label |\n| `labelTooltipSurface` | `'1' \\| '2' \\| '3'` | — | Surface level for label tooltip |\n| `errorClassName` | `string` | — | Class override for error element |\n\nAlso supports all standard HTML `<input>` attributes.\n\n---\n\n## Select\n\nDropdown select with label, placeholder, helper, and error support.\n\n```tsx\nimport { Select } from '@blitz/design-system';\n\n<Select\n  label=\"Country\"\n  options={[\n    { value: 'us', label: 'United States' },\n    { value: 'uk', label: 'United Kingdom' },\n  ]}\n  placeholder=\"Select a country\"\n  onValueChange={(val) => setCountry(val)}\n/>\n```\n\n### SelectProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `options` | `Option[]` | — | **Required.** `{ value: string; label: ReactNode; labelDetails?: ReactNode }[]` |\n| `value` | `string` | — | Controlled value |\n| `defaultValue` | `string` | — | Initial value |\n| `onValueChange` | `(value: string) => void` | — | Value change handler |\n| `label` | `ReactNode` | — | Label above the select |\n| `labelPosition` | `'top' \\| 'side'` | `'top'` | Label placement |\n| `placeholder` | `string` | — | Placeholder option text |\n| `helper` | `ReactNode` | — | Helper text below select |\n| `error` | `ReactNode` | — | Error message |\n| `size` | `'xl' \\| 'lg' \\| 'md'` | `'md'` | Select height |\n| `disabled` | `boolean` | `false` | Disabled state |\n| `loading` | `boolean` | `false` | Loading state |\n\n---\n\n## Switch\n\nToggle switch built on Radix Switch.\n\n```tsx\nimport { Switch } from '@blitz/design-system';\n\n<Switch\n  checked={isEnabled}\n  onCheckedChange={setIsEnabled}\n  size=\"md\"\n/>\n```\n\n### SwitchProps\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `checked` | `boolean` | — | Controlled checked state |\n| `onCheckedChange` | `(checked: boolean) => void` | — | Change handler |\n| `size` | `'sm' \\| 'md'` | `'md'` | Switch dimensions |\n| `disabled` | `boolean` | `false` | Disabled state |\n| `id` | `string` | — | HTML id (for label association) |\n| `className` | `string` | — | Root class override |\n| `thumbClassName` | `string` | — | Thumb class override |\n| `style` | `CSSProperties` | — | Inline style |\n\n---\n\n## Tooltip\n\nHover tooltip built on Radix Tooltip. Uses namespace export pattern.\n\n```tsx\nimport * as Tooltip from '@blitz/design-system';\n// Note: Tooltip is exported as a namespace\n\n<Tooltip.Provider>\n  <Tooltip.Root>\n    <Tooltip.Trigger asChild>\n      <button>Hover me</button>\n    </Tooltip.Trigger>\n    <Tooltip.Content side=\"top\" sideOffset={4}>\n      Tooltip text\n    </Tooltip.Content>\n  </Tooltip.Root>\n</Tooltip.Provider>\n```\n\n### TooltipContent Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | — | **Required.** Tooltip content |\n| `truncate` | `boolean` | `false` | Truncate long content |\n| `hideArrow` | `boolean` | `false` | Hide the arrow pointer |\n| `maxWidth` | `string \\| number` | — | Max width of tooltip |\n| `surface` | `'1' \\| '2' \\| '3'` | — | Surface level (background depth) |\n| `side` | `'top' \\| 'right' \\| 'bottom' \\| 'left'` | `'top'` | Preferred side |\n| `align` | `'start' \\| 'center' \\| 'end'` | `'center'` | Alignment |\n| `sideOffset` | `number` | — | Offset from trigger |\n| `alignOffset` | `number` | — | Alignment offset |\n| `avoidCollisions` | `boolean` | `true` | Flip when near viewport edge |\n| `collisionPadding` | `number` | — | Padding from viewport edges |\n\nRe-exports from Radix: `Arrow`, `Portal`, `Provider`, `Root`, `Trigger`.\n\n---\n\n## Skeleton\n\nPlaceholder loading component listed in the documentation but not yet exported from the package. This is marked as a Work In Progress in the docs site. Do not use until available in the published package.\n",
+      "condensed": "# Components - Atoms\n\nAll imported from `@blitz/design-system`.\n\n## Alert\n`type`: `'neutral'|'info'|'success'|'warning'|'danger'`. Props: `title`, `children`, `actions`, `alignActions`, `direction`, `onClose`, `className`.\n\n## Avatar\n`size`: `'xxs'|'xs'|'sm'|'md'|'lg'|'xl'|'2xl'`. `type`: `'circle'|'rounded'`. `fallback`: `'icon'|'initials'`. `user`: `{name?, avatar?}`.\n\n## Badge\n`type`: `'neutral'|'brand'|'success'|'warning'|'danger'`. `icon`: UnoCSS icon class (circular icon badge).\n\n## Button\n`variant`: `'primary'|'secondary'|'tint'|'ghost'|'high-contrast'|'link-gray'|'link-color'`. `size`: `'lg'|'md'|'sm'|'xs'`. `tint`: `'brand'|'success'|'warning'|'danger'`. `startIcon`, `endIcon`, `icon`: UnoCSS icon classes. `loading`, `disabled`, `asChild`, `tooltip`.\n\n## Checkbox\nExtends Radix Checkbox. `onChange: (checked: CheckedState) => void`. `CheckedState = boolean | 'indeterminate'`.\n\n## Dropdown\n`trigger`: ReactNode or render function. `Dropdown.Item`: `onClick`, `disabled`, `className`. `open`, `onOpenChange`, `contentProps`.\n\n## IconDecoration\n`icon`: required UnoCSS class. `variant`: `'default'|'brand'|'success'|'warning'|'danger'|'neutral'`. `size`: `'xs'|'sm'|'md'|'lg'|'xl'`. `shape`: `'rounded'|'squircle'|'circle'`.\n\n## Input\n`label`, `placeholder`, `variant`: `'vertical'|'horizontal'`, `size`: `'md'|'sm'`, `error`, `warning`, `hint`, `onValueChange`, `labelTooltip`, `disabled`.\n\n## Select\n`options`: `{value, label, labelDetails?}[]`. `value`, `onValueChange`, `label`, `labelPosition`: `'top'|'side'`, `placeholder`, `helper`, `error`, `size`: `'xl'|'lg'|'md'`, `loading`.\n\n## Switch\nRadix Switch. `checked`, `onCheckedChange`, `size`: `'sm'|'md'`, `disabled`.\n\n## Tooltip\nNamespace export: `import * as Tooltip from '@blitz/design-system'`. Use `Provider > Root > Trigger + Content`. `Content` props: `side`, `align`, `sideOffset`, `hideArrow`, `maxWidth`, `surface`.\n\n## Skeleton\nWork In Progress. Not yet exported from package. Do not use until available.\n"
+    },
+    "components--organisms": {
+      "full": "# Components - Organisms\n\nOrganisms are complex, composed components. Import from `@blitz/design-system`.\n\n## Dialog\n\nModal dialog with composable sub-components for header, content, and actions.\n\n```tsx\nimport {\n  Dialog,\n  DialogHeader,\n  DialogContent,\n  DialogActions,\n  DialogButton,\n  DialogClose,\n  HiddenDialogTitle,\n} from '@blitz/design-system';\n\n<Dialog\n  open={isOpen}\n  onClose={() => setIsOpen(false)}\n  showCloseButton\n  closeOnBackdropClick\n  closeOnEscape\n  width={480}\n>\n  <DialogHeader\n    title=\"Confirm Action\"\n    description=\"This action cannot be undone.\"\n    badge=\"danger\"\n  />\n  <DialogContent>\n    <p>Are you sure you want to delete this item?</p>\n  </DialogContent>\n  <DialogActions orientation=\"horizontal\" actionSize=\"compact\">\n    <DialogButton variant=\"secondary\" onClick={() => setIsOpen(false)}>\n      Cancel\n    </DialogButton>\n    <DialogButton variant=\"primary\" tint=\"danger\" onClick={handleDelete}>\n      Delete\n    </DialogButton>\n  </DialogActions>\n</Dialog>\n```\n\n### Dialog Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `open` | `boolean` | — | **Required.** Controlled open state |\n| `children` | `ReactNode \\| ReactNode[]` | — | **Required.** Dialog content (sub-components) |\n| `onClose` | `() => void` | — | Close callback |\n| `showCloseButton` | `boolean` | `false` | Show X button in corner |\n| `closeButtonProps` | `ButtonProps` | — | Props for close button |\n| `closeButtonClassName` | `string` | — | Class for close button |\n| `closeOnBackdropClick` | `boolean` | `false` | Close when clicking backdrop |\n| `closeOnEscape` | `boolean` | `true` | Close on Escape key |\n| `width` | `string \\| number` | — | Dialog width |\n| `height` | `string \\| number` | — | Dialog height |\n| `maxWidth` | `string \\| number` | — | Max dialog width |\n| `maxHeight` | `string \\| number` | — | Max dialog height |\n| `showOverflow` | `boolean` | `false` | Allow overflow scrolling |\n| `contentClassName` | `string` | — | Class for content container |\n| `backdropClassName` | `string` | — | Class for backdrop overlay |\n| `unstyled` | `boolean` | `false` | Remove default styles |\n| `modal` | `boolean` | `true` | Modal mode (disables background interaction) |\n| `portalContainer` | `Element` | — | Custom portal mount target |\n| `data-testid` | `string` | — | Test ID |\n\n### DialogHeader Props\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `title` | `ReactNode` | Dialog title (accessible heading) |\n| `description` | `ReactNode` | Description rendered below title |\n| `badge` | `BadgeType` | Color variant for icon badge: `'neutral'\\|'brand'\\|'success'\\|'warning'\\|'danger'` |\n| `badgeIcon` | `string` | UnoCSS icon class for badge. Falls back to default icon per badge type |\n| `onBack` | `VoidFunction` | Show back arrow button (for multi-step dialogs) |\n| `noBorder` | `boolean` | Remove border between header and content |\n| `unstyled` | `boolean` | Remove all default styles |\n| `className` | `string` | Class override |\n| `wrapperClassName` | `string` | Wrapper class override |\n\n### DialogImageHeader Props\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `src` | `string` | **Required.** Image URL |\n| `title` | `ReactNode` | Title below image |\n| `description` | `ReactNode` | Description below title |\n\n### DialogContent Props\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `children` | `ReactNode` | **Required.** Content |\n| `className` | `string` | Class override |\n| `unstyled` | `boolean` | Remove default text color/size styles |\n| `noPadding` | `boolean` | Remove default `p-6` padding |\n\n### DialogActions Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | — | **Required.** Action buttons |\n| `orientation` | `'horizontal' \\| 'vertical'` | `'horizontal'` | Button layout |\n| `actionSize` | `'compact' \\| 'fullwidth'` | `'compact'` | `compact` = hug content; `fullwidth` = equal width buttons |\n| `className` | `string` | — | Class override |\n\n### DialogButton\n\nSame props as `Button`. Pre-styled for use inside `DialogActions`.\n\n### DialogClose\n\nRe-exported from Radix Dialog. Used for custom close triggers.\n\n### HiddenDialogTitle\n\nAccessibility helper. Use when `DialogHeader` is omitted but a title is still needed for screen readers.\n\n```tsx\n<HiddenDialogTitle>Accessible title for screen readers</HiddenDialogTitle>\n```\n\n---\n\n## Table\n\nData table with semantic HTML structure wrapped in styled components.\n\n```tsx\nimport {\n  Table,\n  TableHeader,\n  TableBody,\n  TableFooter,\n  TableHead,\n  TableRow,\n  TableCell,\n} from '@blitz/design-system';\n\n<Table>\n  <TableHeader>\n    <TableRow>\n      <TableHead>Name</TableHead>\n      <TableHead>Status</TableHead>\n      <TableHead>Actions</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow>\n      <TableCell>Item One</TableCell>\n      <TableCell>Active</TableCell>\n      <TableCell>Edit</TableCell>\n    </TableRow>\n  </TableBody>\n  <TableFooter>\n    <TableRow>\n      <TableCell colSpan={3}>Showing 1 result</TableCell>\n    </TableRow>\n  </TableFooter>\n</Table>\n```\n\n### Table Props\n\nExtends `React.HTMLAttributes<HTMLTableElement>` with:\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `containerClassName` | `string` | Class override for the outer container `<div>` |\n\n### Sub-component Props\n\n| Sub-component | Extends | Notes |\n|---------------|---------|-------|\n| `TableHeader` | `React.HTMLAttributes<HTMLTableSectionElement>` | `<thead>` wrapper |\n| `TableBody` | `React.HTMLAttributes<HTMLTableSectionElement>` | `<tbody>` wrapper |\n| `TableFooter` | `React.HTMLAttributes<HTMLTableSectionElement>` | `<tfoot>` wrapper |\n| `TableRow` | `React.HTMLAttributes<HTMLTableRowElement>` | `<tr>` wrapper |\n| `TableHead` | `React.ThHTMLAttributes<HTMLTableCellElement>` | `<th>` wrapper |\n| `TableCell` | `React.TdHTMLAttributes<HTMLTableCellElement>` | `<td>` wrapper |\n\nAll sub-components support standard HTML attributes and `className` for styling.\n\n---\n\n## OptionCard\n\nA card component for displaying an option with a title, optional description, and an action element. Use `OptionCardGroup` to wrap multiple cards with dividers.\n\n```tsx\nimport { OptionCard, OptionCardGroup, Switch } from '@blitz/design-system';\n\n<OptionCardGroup>\n  <OptionCard\n    id=\"notifications\"\n    title=\"Notifications\"\n    description=\"Receive email notifications\"\n    action={<Switch id=\"notifications\" />}\n  />\n  <OptionCard\n    id=\"dark-mode\"\n    title=\"Dark Mode\"\n    description=\"Use dark color theme\"\n    action={<Switch id=\"dark-mode\" />}\n  />\n</OptionCardGroup>\n```\n\n### OptionCard Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `title` | `string` | — | **Required.** Main label for the option |\n| `action` | `ReactNode` | — | **Required.** Action element (e.g. Switch, Button, Checkbox) |\n| `description` | `ReactNode` | — | Secondary text below the title |\n| `id` | `string` | — | HTML id for label association |\n| `className` | `string` | — | Additional CSS classes |\n\n### OptionCardGroup Props\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `children` | `ReactNode` | **Required.** OptionCard elements |\n| `className` | `string` | Additional CSS classes |\n\n### Styling\n\n- Title: `text-sm font-medium text-bolt-ds-textPrimary`\n- Description: `text-sm text-bolt-ds-textSecondary mt-0.5`\n- Group applies `divide-y divide-bolt-ds-borderDivider` for dividers between cards\n",
+      "condensed": "# Components - Organisms\n\nAll imported from `@blitz/design-system`.\n\n## Dialog\n\nComposed modal. Sub-components: `DialogHeader`, `DialogContent`, `DialogActions`, `DialogButton`, `DialogClose`, `DialogImageHeader`, `HiddenDialogTitle`.\n\n**Dialog**: `open` (required), `onClose`, `showCloseButton`, `closeOnBackdropClick`, `closeOnEscape`, `width`, `height`, `maxWidth`, `maxHeight`, `modal`, `portalContainer`, `unstyled`.\n\n**DialogHeader**: `title`, `description`, `badge` (BadgeType), `badgeIcon` (UnoCSS icon), `onBack`, `noBorder`, `unstyled`.\n\n**DialogImageHeader**: `src` (required), `title`, `description`.\n\n**DialogContent**: `children` (required), `noPadding`, `unstyled`, `className`.\n\n**DialogActions**: `children` (required), `orientation`: `'horizontal'|'vertical'`, `actionSize`: `'compact'|'fullwidth'`.\n\n**DialogButton**: Same props as Button.\n\n**HiddenDialogTitle**: Accessibility-only title for screen readers when DialogHeader is not used.\n\n```tsx\n<Dialog open={open} onClose={onClose} showCloseButton closeOnBackdropClick>\n  <DialogHeader title=\"Title\" badge=\"danger\" />\n  <DialogContent>Body</DialogContent>\n  <DialogActions><DialogButton onClick={onClose}>OK</DialogButton></DialogActions>\n</Dialog>\n```\n\n## Table\n\nSemantic HTML table wrapper. Sub-components: `TableHeader`, `TableBody`, `TableFooter`, `TableHead`, `TableRow`, `TableCell`.\n\n**Table**: Extends `HTMLTableElement` attrs. `containerClassName` for outer div.\n\nAll sub-components are styled HTML wrappers with `className` support.\n\n```tsx\n<Table>\n  <TableHeader><TableRow><TableHead>Col</TableHead></TableRow></TableHeader>\n  <TableBody><TableRow><TableCell>Data</TableCell></TableRow></TableBody>\n</Table>\n```\n\n## OptionCard\n\nCard for settings/choices with title, description, and action element. Use `OptionCardGroup` to wrap multiple cards with dividers.\n\n**OptionCard**: `title` (required), `action` (required, ReactNode), `description`, `id`, `className`.\n\n**OptionCardGroup**: `children` (required), `className`. Adds `divide-y divide-bolt-ds-borderDivider`.\n\n```tsx\n<OptionCardGroup>\n  <OptionCard title=\"Notifications\" description=\"Receive emails\" action={<Switch />} />\n  <OptionCard title=\"Dark Mode\" action={<Switch />} />\n</OptionCardGroup>\n```\n"
+    }
+  },
+  "collections": {
+    "components": {
+      "description": "React UI components built on Radix UI primitives with UnoCSS styling",
+      "taggable": true,
+      "items": [
+        {
+          "name": "Button",
+          "docs": "# Button\n\nInteractive button component with multiple variants, sizes, icon support, and loading state. Built with Radix UI Slot for polymorphic rendering.\n\n## Import\n\n```tsx\nimport { Button } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `variant` | `'primary' \\| 'secondary' \\| 'tint' \\| 'ghost' \\| 'high-contrast' \\| 'link-gray' \\| 'link-color'` | `'primary'` | Visual style variant |\n| `size` | `'lg' \\| 'md' \\| 'sm' \\| 'xs'` | `'lg'` | Button size (also accepts `'icon-xs'`, `'icon-sm'`, `'icon-md'`, `'icon-lg'` for icon-only buttons) |\n| `tint` | `'brand' \\| 'success' \\| 'warning' \\| 'danger'` | `'brand'` | Color tint for `tint`, `primary`, and `link-color` variants |\n| `icon` | `string` | — | Icon-only mode: CSS icon class (e.g. `i-ph:plus`). Converts size to icon size. |\n| `startIcon` | `string` | — | CSS icon class to show at the start of the button |\n| `endIcon` | `string` | — | CSS icon class to show at the end of the button |\n| `iconClassName` | `string` | — | Additional className for icons |\n| `disabled` | `boolean` | `false` | Disables the button |\n| `loading` | `boolean` | `false` | Shows loading spinner, disables interaction |\n| `loader` | `ReactNode` | — | Custom loader element (replaces default spinner) |\n| `truncate` | `boolean` | `true` | Truncates long text with ellipsis |\n| `asChild` | `boolean` | — | Renders as child element using Radix Slot |\n| `type` | `'button' \\| 'submit' \\| 'reset'` | `'button'` | HTML button type |\n| `tooltip` | `ButtonTooltip` | — | Tooltip configuration object |\n| `className` | `string` | — | Additional CSS classes |\n\n### ButtonTooltip\n\n```ts\ninterface ButtonTooltip {\n  content: ReactNode;\n  side?: 'top' | 'right' | 'bottom' | 'left';\n  align?: 'start' | 'center' | 'end';\n  sideOffset?: number;\n  maxWidth?: number;\n}\n```\n\n## Variants\n\n- **primary**: Brand-colored filled button. Combine with `tint` for success/warning/danger colors.\n- **secondary**: Soft inverted-surface background.\n- **tint**: Semi-transparent tinted background with colored text. Use `tint` prop to pick color.\n- **ghost**: Transparent background, reveals on hover.\n- **high-contrast**: Inverse surface for high contrast scenarios.\n- **link-gray**: Text-only link style with secondary text color.\n- **link-color**: Text-only link style, colored. Use `tint` prop to pick color.\n\n## Sizes\n\n- **xs**: Height 28px, text-xs, padding px-1.5\n- **sm**: Height 32px, text-xs, padding px-2\n- **md**: Height 36px, text-sm, padding px-3\n- **lg** (default): Height 40px, text-sm, padding px-4\n\nIcon-only sizes (square): `icon-xs` 28px, `icon-sm` 32px, `icon-md` 36px, `icon-lg` 40px.\n\n## Usage Examples\n\n```tsx\n// Basic primary button\n<Button>Click me</Button>\n\n// Secondary button, medium size\n<Button variant=\"secondary\" size=\"md\">Cancel</Button>\n\n// Danger tint\n<Button variant=\"primary\" tint=\"danger\">Delete</Button>\n\n// Ghost button with start icon\n<Button variant=\"ghost\" startIcon=\"i-ph:plus\">Add Item</Button>\n\n// Icon-only button\n<Button icon=\"i-ph:trash\" size=\"sm\" variant=\"ghost\" aria-label=\"Delete\" />\n\n// Loading state\n<Button loading>Saving...</Button>\n\n// With tooltip\n<Button\n  icon=\"i-ph:info\"\n  tooltip={{ content: 'More info', side: 'top' }}\n/>\n\n// As child (polymorphic, e.g. wrapping a link)\n<Button asChild variant=\"primary\">\n  <a href=\"/dashboard\">Go to Dashboard</a>\n</Button>\n\n// Tint variants\n<Button variant=\"tint\" tint=\"success\">Success action</Button>\n<Button variant=\"link-color\" tint=\"danger\">Delete link</Button>\n```\n\n## Accessibility\n\n- Buttons are focusable by default.\n- Use `tabIndex={-1}` for buttons outside the tab order.\n- Disabled buttons are automatically removed from tab order.\n- Always provide `aria-label` for icon-only buttons.",
+          "keywords": [
+            "button",
+            "cta",
+            "action",
+            "submit",
+            "interactive"
+          ]
+        },
+        {
+          "name": "Input",
+          "docs": "# Input\n\nText input field with optional label, hint, error/warning states, and tooltip support. Supports both vertical and horizontal layouts.\n\n## Import\n\n```tsx\nimport { Input } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `label` | `ReactNode` | — | Label displayed above or beside the input |\n| `placeholder` | `string` | — | Placeholder text |\n| `variant` | `'vertical' \\| 'horizontal'` | `'vertical'` | Layout: vertical stacks label above; horizontal places label to the side |\n| `size` | `'md' \\| 'sm'` | `'md'` | Input size. `md` = height 44px, text-base; `sm` = height 40px, text-sm |\n| `error` | `ReactNode` | — | Error message. When set, border turns danger-colored. If `warning` is also set, shows warning color instead |\n| `warning` | `boolean` | — | Modifier for `error` state to show warning color instead of danger |\n| `hint` | `ReactNode` | — | Helper text shown below input when no error is present |\n| `disabled` | `boolean` | `false` | Disables the input |\n| `inputClassName` | `string` | — | Additional className for the inner `<input>` element |\n| `className` | `string` | — | Additional className for the outer wrapper |\n| `errorClassName` | `string` | — | Additional className for the error/hint text |\n| `onValueChange` | `(value: string) => void` | — | Fires with the string value on every change (convenience wrapper around `onChange`) |\n| `labelTooltip` | `string` | — | Tooltip text shown on the label question mark icon |\n| `labelTooltipSurface` | `'1' \\| '2' \\| '3'` | — | Tooltip surface variant |\n| `id` | `string` | — | ID for the input (auto-generated if not provided for label association) |\n| All native `<input>` props | — | — | e.g. `type`, `value`, `onChange`, `readOnly`, `autoFocus`, etc. |\n\n## Usage Examples\n\n```tsx\n// Basic input with label\n<Input label=\"Email\" placeholder=\"you@example.com\" type=\"email\" />\n\n// With error state\n<Input\n  label=\"Password\"\n  type=\"password\"\n  error=\"Password must be at least 8 characters\"\n/>\n\n// With warning state\n<Input\n  label=\"Username\"\n  error=\"This username may already be taken\"\n  warning\n/>\n\n// With hint\n<Input\n  label=\"Username\"\n  hint=\"Only letters, numbers, and underscores\"\n  placeholder=\"johndoe\"\n/>\n\n// Small size\n<Input label=\"Search\" size=\"sm\" placeholder=\"Search...\" />\n\n// Horizontal layout\n<Input\n  label=\"Name\"\n  variant=\"horizontal\"\n  placeholder=\"John Doe\"\n/>\n\n// Controlled with onValueChange\n<Input\n  label=\"Email\"\n  value={email}\n  onValueChange={setEmail}\n/>\n\n// With label tooltip\n<Input\n  label=\"API Key\"\n  labelTooltip=\"Your secret API key. Keep this safe!\"\n  type=\"password\"\n/>\n```\n\n## States\n\n- **Default**: `border-bolt-ds-borderOutline`, focus ring `bolt-ds-brandHighlight`\n- **Error**: `border-bolt-ds-danger`, focus ring `bolt-ds-dangerHighlight`\n- **Warning**: `border-bolt-ds-warning`, focus ring `bolt-ds-warningHighlight`\n- **Disabled**: 75% opacity, `cursor-not-allowed`\n- **Read-only**: Tertiary text color",
+          "keywords": [
+            "input",
+            "text",
+            "field",
+            "form",
+            "textfield"
+          ]
+        },
+        {
+          "name": "Checkbox",
+          "docs": "# Checkbox\n\nAccessible checkbox component built on Radix UI. Supports checked, unchecked, and indeterminate states.\n\n## Import\n\n```tsx\nimport { Checkbox } from '@blitz/design-system';\n```\n\n## Props\n\nExtends `@radix-ui/react-checkbox` `CheckboxProps` with a renamed change handler:\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `checked` | `boolean \\| 'indeterminate'` | — | Controlled checked state |\n| `defaultChecked` | `boolean \\| 'indeterminate'` | — | Uncontrolled default checked state |\n| `onChange` | `(checked: CheckedState) => void` | — | Fires when checked state changes. `CheckedState = boolean \\| 'indeterminate'` |\n| `onCheckedChange` | `(checked: CheckedState) => void` | — | Alias from Radix. Prefer `onChange`. |\n| `disabled` | `boolean` | — | Disables the checkbox |\n| `required` | `boolean` | — | Marks as required in a form |\n| `asChild` | `boolean` | — | Renders as child element via Radix Slot |\n| `className` | `string` | — | Additional CSS classes |\n| `id` | `string` | — | HTML id (used to associate with a `<label>`) |\n\n## States\n\n- **Unchecked**: Transparent background, bordered outline\n- **Checked**: Brand-colored background with check icon (`i-bolt:check`)\n- **Indeterminate**: Brand-colored background with minus icon (`i-bolt:minus`)\n- **Disabled**: 50% opacity, `cursor-not-allowed`\n\n## Usage Examples\n\n```tsx\n// Uncontrolled checkbox\n<Checkbox defaultChecked />\n\n// Controlled checkbox\n<Checkbox\n  checked={isChecked}\n  onChange={(checked) => setIsChecked(checked as boolean)}\n/>\n\n// Indeterminate state\n<Checkbox checked=\"indeterminate\" />\n\n// Disabled\n<Checkbox disabled />\n<Checkbox checked disabled />\n\n// With label (manual association)\n<div className=\"flex items-center gap-2\">\n  <Checkbox id=\"terms\" onChange={handleChange} />\n  <label htmlFor=\"terms\" className=\"text-sm text-bolt-ds-textPrimary\">\n    Accept terms and conditions\n  </label>\n</div>\n\n// In a form\n<form>\n  <Checkbox id=\"newsletter\" name=\"newsletter\" value=\"yes\" />\n  <label htmlFor=\"newsletter\">Subscribe to newsletter</label>\n</form>\n```\n\n## Notes\n\n- The component uses `onChange` (not `onCheckedChange`) to align with native input conventions.\n- The checkbox is 16x16px (w-4 h-4) and always square-shaped.",
+          "keywords": [
+            "checkbox",
+            "toggle",
+            "check",
+            "form",
+            "selection"
+          ]
+        },
+        {
+          "name": "Select",
+          "docs": "# Select\n\nDropdown select input built on Radix UI Select. Supports label, placeholder, error state, helper text, a loading spinner, and a ghost variant.\n\n## Import\n\n```tsx\nimport { Select } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `options` | `Option[]` | **required** | Array of options to display |\n| `value` | `string` | — | Controlled selected value |\n| `defaultValue` | `string` | — | Uncontrolled default value |\n| `onValueChange` | `(value: string) => void` | — | Fires when selection changes |\n| `placeholder` | `string` | `'Select…'` | Placeholder shown when nothing is selected |\n| `label` | `ReactNode` | — | Label displayed above or beside the select |\n| `labelPosition` | `'top' \\| 'side'` | `'top'` | Position of the label |\n| `size` | `'xl' \\| 'lg' \\| 'md'` | `'lg'` | Trigger height: xl=44px, lg=40px, md=36px |\n| `variant` | `'default' \\| 'ghost'` | `'default'` | Visual variant. `ghost` renders a minimal borderless trigger. |\n| `disabled` | `boolean` | — | Disables the select |\n| `loading` | `boolean` | `false` | Shows a spinner in the trigger, disables interaction |\n| `error` | `ReactNode` | — | Error message displayed below. Makes border danger-colored. |\n| `helper` | `ReactNode` | — | Helper text shown below when no error is present |\n| `id` | `string` | — | ID for associating with label |\n| `className` | `string` | — | Additional className for the trigger |\n| `labelClassName` | `string` | — | Additional className for the label |\n| `contentClassName` | `string` | — | Additional className for the dropdown content |\n| `containerClassName` | `string` | — | Additional className for the outer container |\n\n### Option type\n\n```ts\ntype Option = {\n  label: ReactNode;        // Display text or node\n  value: string;           // Value key (required)\n  labelDetails?: ReactNode; // Additional detail shown alongside the label\n  description?: ReactNode;  // Description text shown below the label in the dropdown\n};\n```\n\n## Usage Examples\n\n```tsx\nconst options = [\n  { label: 'Apple', value: 'apple' },\n  { label: 'Banana', value: 'banana' },\n  { label: 'Cherry', value: 'cherry' },\n];\n\n// Basic select\n<Select options={options} placeholder=\"Choose a fruit\" />\n\n// Controlled\n<Select\n  options={options}\n  value={selected}\n  onValueChange={setSelected}\n  label=\"Favorite Fruit\"\n/>\n\n// Ghost variant (minimal borderless style)\n<Select options={options} variant=\"ghost\" placeholder=\"Sort by\" />\n\n// With error\n<Select\n  options={options}\n  label=\"Country\"\n  error=\"Please select a country\"\n/>\n\n// With helper text\n<Select\n  options={options}\n  label=\"Framework\"\n  helper=\"Select the framework you use most\"\n/>\n\n// Loading state\n<Select options={[]} loading label=\"Loading options...\" />\n\n// Side label\n<Select\n  options={options}\n  label=\"Sort by\"\n  labelPosition=\"side\"\n/>\n\n// With label details and description in option\nconst detailedOptions = [\n  { label: 'React', value: 'react', labelDetails: <span className=\"text-xs text-bolt-ds-textTertiary\">v18</span>, description: 'A JavaScript library for building user interfaces' },\n  { label: 'Vue', value: 'vue', description: 'The progressive JavaScript framework' },\n];\n<Select options={detailedOptions} />\n```\n\n## Notes\n\n- The dropdown content has a max-height that adapts to available screen space.\n- Selected option is bolded (`font-semibold`) in the dropdown.\n- The dropdown uses a portal so it renders above other content.\n",
+          "keywords": [
+            "select",
+            "dropdown",
+            "picker",
+            "form",
+            "option"
+          ]
+        },
+        {
+          "name": "Switch",
+          "docs": "# Switch\n\nToggle switch built on Radix UI Switch. Provides a binary on/off control with smooth thumb animation.\n\n## Import\n\n```tsx\nimport { Switch } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `checked` | `boolean` | — | Controlled checked state |\n| `onCheckedChange` | `(checked: boolean) => void` | — | Fires when switch is toggled |\n| `disabled` | `boolean` | — | Disables the switch |\n| `size` | `'md' \\| 'sm'` | `'md'` | Switch size. `md` = 44x25px; `sm` = 36x20px |\n| `id` | `string` | — | ID for associating with a `<label>` |\n| `className` | `string` | — | Additional className for the switch root |\n| `thumbClassName` | `string` | — | Additional className for the thumb element |\n| `style` | `CSSProperties` | — | Inline styles for the switch root |\n\n## States\n\n- **Off**: `bg-bolt-ds-surfaceThree` background\n- **On**: `bg-bolt-ds-brand` background\n- **Disabled**: 50% opacity, `cursor-not-allowed`\n\n## Usage Examples\n\n```tsx\n// Uncontrolled switch\n<Switch />\n\n// Controlled switch\n<Switch\n  checked={isEnabled}\n  onCheckedChange={setIsEnabled}\n/>\n\n// Small size\n<Switch size=\"sm\" />\n\n// Disabled\n<Switch disabled />\n<Switch checked disabled />\n\n// With label association\n<div className=\"flex items-center gap-2\">\n  <Switch id=\"notifications\" checked={enabled} onCheckedChange={setEnabled} />\n  <label htmlFor=\"notifications\" className=\"text-sm text-bolt-ds-textPrimary\">\n    Enable notifications\n  </label>\n</div>\n\n// In a settings panel\n<div className=\"flex items-center justify-between\">\n  <div>\n    <p className=\"text-sm font-medium text-bolt-ds-textPrimary\">Dark mode</p>\n    <p className=\"text-xs text-bolt-ds-textSecondary\">Switch to dark theme</p>\n  </div>\n  <Switch checked={isDark} onCheckedChange={setIsDark} />\n</div>\n```\n\n## Animation\n\nThe thumb slides smoothly using CSS transition (100ms duration). The transition uses `will-change: transform` for GPU acceleration.",
+          "keywords": [
+            "switch",
+            "toggle",
+            "on-off",
+            "boolean",
+            "setting"
+          ]
+        },
+        {
+          "name": "Alert",
+          "docs": "# Alert\n\nContextual feedback message component for user actions and important information. Supports five semantic types, optional title, body content, action buttons, and a dismissible close button.\n\n## Import\n\n```tsx\nimport { Alert } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `type` | `'neutral' \\| 'info' \\| 'success' \\| 'warning' \\| 'danger'` | `'neutral'` | Semantic type controlling colors and icon |\n| `title` | `ReactNode` | — | Optional title text shown prominently |\n| `children` | `ReactNode` | — | Body content / description |\n| `actions` | `ReactNode` | — | Action buttons or links |\n| `alignActions` | `'start' \\| 'center' \\| 'end'` | `'start'` | Alignment of action buttons |\n| `direction` | `'column' \\| 'row'` | `'column'` | Layout of content + actions: `column` stacks actions below; `row` places them on the right |\n| `onClose` | `() => void` | — | If provided, shows an X close button in the top-right corner |\n| `className` | `string` | — | Additional className for the root element |\n| `iconClassName` | `string` | — | Override the default icon with a CSS icon class |\n| `titleClassName` | `string` | — | Additional className for the title |\n| `contentClassName` | `string` | — | Additional className for the content area |\n\n## Types and Icons\n\n| Type | Icon | Colors |\n|------|------|--------|\n| `neutral` | `i-ph:star` | `bg-bolt-ds-neutralContainer`, border `bolt-ds-neutralOutline` |\n| `info` | `i-ph:info` | `bg-bolt-ds-brandContainer`, border `bolt-ds-brandOutline` |\n| `success` | `i-ph:check-circle` | `bg-bolt-ds-successContainer`, border `bolt-ds-successOutline` |\n| `warning` | `i-ph:warning` | `bg-bolt-ds-warningContainer`, border `bolt-ds-warningOutline` |\n| `danger` | `i-ph:warning-circle` | `bg-bolt-ds-dangerContainer`, border `bolt-ds-dangerOutline` |\n\n## Usage Examples\n\n```tsx\n// Basic alert\n<Alert title=\"Success\" type=\"success\">\n  Your changes have been saved.\n</Alert>\n\n// Without title (description only)\n<Alert type=\"info\">\n  This section is under construction.\n</Alert>\n\n// With action buttons (column layout)\n<Alert\n  title=\"Session Expired\"\n  type=\"danger\"\n  actions={\n    <>\n      <Button size=\"sm\" variant=\"primary\" tint=\"danger\">Log in again</Button>\n      <Button size=\"sm\" variant=\"ghost\">Get help</Button>\n    </>\n  }\n>\n  Your session has expired. Please log in again.\n</Alert>\n\n// Row layout - actions on the right\n<Alert\n  type=\"warning\"\n  title=\"Update available\"\n  direction=\"row\"\n  actions={<Button size=\"sm\">Update now</Button>}\n>\n  A new version is ready to install.\n</Alert>\n\n// Dismissible alert\n<Alert type=\"neutral\" title=\"Notice\" onClose={() => setVisible(false)}>\n  Click the X to dismiss this alert.\n</Alert>\n\n// Custom icon\n<Alert\n  type=\"info\"\n  iconClassName=\"i-ph:rocket\"\n  title=\"New Feature\"\n>\n  We've just launched a new feature!\n</Alert>\n```\n\n## When to Use\n\n- Form validation feedback\n- Page-level status messages\n- Contextual warnings within content\n- Feature announcements in specific sections\n\nUse toast notifications for system-wide or ephemeral messages instead.",
+          "keywords": [
+            "alert",
+            "notification",
+            "message",
+            "feedback",
+            "banner"
+          ]
+        },
+        {
+          "name": "Avatar",
+          "docs": "# Avatar\n\nUser avatar component that displays a profile image, initials fallback, or a default user icon. Automatically falls back when an image fails to load.\n\n## Import\n\n```tsx\nimport { Avatar } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `user` | `{ name?: string; avatar?: string }` | — | User data. `avatar` is the image URL; `name` is used to derive initials |\n| `size` | `'xxs' \\| 'xs' \\| 'sm' \\| 'md' \\| 'lg' \\| 'xl' \\| '2xl'` | `'sm'` | Avatar size |\n| `type` | `'circle' \\| 'rounded'` | `'circle'` | Shape: circle or rounded rectangle (radius scales with size) |\n| `fallback` | `'icon' \\| 'initials'` | `'icon'` | What to show when no image is available |\n| `className` | `string` | — | Additional CSS classes |\n\n## Sizes\n\n| Size | Dimensions |\n|------|------------|\n| `xxs` | 16x16px |\n| `xs` | 24x24px |\n| `sm` | 32x32px |\n| `md` | 36x36px |\n| `lg` | 48x48px |\n| `xl` | 56x56px |\n| `2xl` | 64x64px |\n\n## Fallback Logic\n\n1. If `user.avatar` URL is provided and loads successfully, shows the image.\n2. On image error, falls back according to `fallback` prop:\n   - `'initials'`: Extracts initials from `user.name` (up to 2 characters, first letter of first and last word).\n   - `'icon'`: Shows a generic user icon (`i-ph:user`).\n3. If no `user` is provided, always shows the fallback.\n\n## Usage Examples\n\n```tsx\n// With image\n<Avatar\n  user={{ name: 'Jane Doe', avatar: 'https://example.com/jane.jpg' }}\n  size=\"md\"\n/>\n\n// Initials fallback\n<Avatar\n  user={{ name: 'John Doe' }}\n  fallback=\"initials\"\n  size=\"lg\"\n/>\n// Renders 'JD'\n\n// Icon fallback (default)\n<Avatar user={{ name: 'Jane' }} size=\"sm\" />\n\n// No user data\n<Avatar size=\"md\" />\n\n// Rounded shape\n<Avatar\n  user={{ name: 'Alice', avatar: '/alice.jpg' }}\n  type=\"rounded\"\n  size=\"lg\"\n/>\n\n// Extra small\n<Avatar user={{ name: 'Bob' }} size=\"xxs\" fallback=\"initials\" />\n\n// In a user profile header\n<div className=\"flex items-center gap-3\">\n  <Avatar\n    user={{ name: 'Jane Doe', avatar: '/jane.jpg' }}\n    size=\"lg\"\n    fallback=\"initials\"\n  />\n  <div>\n    <p className=\"font-semibold text-bolt-ds-textPrimary\">Jane Doe</p>\n    <p className=\"text-sm text-bolt-ds-textSecondary\">jane@example.com</p>\n  </div>\n</div>\n```\n\n## Notes\n\n- Initials are automatically derived: \"Jane Doe\" → \"JD\", \"Alice\" → \"A\".\n- The component renders as a `<div>` containing either `<img>`, `<span>` (initials), or icon `<span>`.\n- Background is `bg-bolt-ds-surfaceTwo` and border is `border-bolt-ds-borderOutline` when showing an image.",
+          "keywords": [
+            "avatar",
+            "user",
+            "profile",
+            "photo",
+            "initials"
+          ]
+        },
+        {
+          "name": "Badge",
+          "docs": "# Badge\n\nA small label component for displaying status, categories, or counts. Renders as either a text pill or a circular icon badge.\n\n## Import\n\n```tsx\nimport { Badge } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `type` | `'neutral' \\| 'brand' \\| 'success' \\| 'warning' \\| 'danger'` | `'neutral'` | No | Semantic color variant |\n| `icon` | `string` | — | No | UnoCSS icon class. When provided, renders a circular icon badge instead of a text pill |\n| `className` | `string` | — | No | Additional CSS classes |\n| `children` | `ReactNode` | — | No | Badge text content (used when no icon is provided) |\n\n## Variants\n\nFive semantic types for status and categorization:\n- `neutral` — `bg-bolt-ds-surfaceTwo text-bolt-ds-textPrimary`\n- `brand` — `bg-bolt-ds-brandContainer text-bolt-ds-brand`\n- `success` — `bg-bolt-ds-successContainer text-bolt-ds-success`\n- `warning` — `bg-bolt-ds-warningContainer text-bolt-ds-warning`\n- `danger` — `bg-bolt-ds-dangerContainer text-bolt-ds-danger`\n\n## Usage\n\n### Text pill badge\n```tsx\n<Badge type=\"success\">Active</Badge>\n<Badge type=\"danger\">Error</Badge>\n<Badge type=\"warning\">Pending</Badge>\n<Badge type=\"brand\">New</Badge>\n<Badge>Neutral</Badge>\n```\n\n### Icon badge (circular)\n```tsx\n// When `icon` is provided, renders as a 48x48 circular badge\n<Badge type=\"success\" icon=\"i-heroicons:check-circle\" />\n<Badge type=\"danger\" icon=\"i-heroicons:exclamation-circle\" />\n<Badge type=\"brand\" icon=\"i-heroicons:sparkles\" />\n```\n\n## Notes\n- Text pill: `inline-flex`, rounded-full, `px-2.5 py-0.5`, min-width 56px, text-xs font-medium\n- Icon badge: `size-12` (48x48), rounded-full, text-xl\n- Icon classes use the UnoCSS icon system (e.g., `i-heroicons:*`, `i-ph:*`)\n",
+          "keywords": [
+            "badge",
+            "label",
+            "status",
+            "tag",
+            "pill"
+          ]
+        },
+        {
+          "name": "Dropdown",
+          "docs": "# Dropdown\n\nA composable dropdown menu built on Radix UI's DropdownMenu primitive. Supports controlled and uncontrolled open state, a render-prop trigger, and disabled items.\n\n## Import\n\n```tsx\nimport { Dropdown } from '@blitz/design-system';\n```\n\n## Props\n\n### Dropdown\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `trigger` | `ReactNode \\| (({ open }: { open: boolean }) => ReactNode)` | — | Yes | Trigger element or render function receiving open state |\n| `contentProps` | `DropdownMenuContentProps` | — | No | Props passed through to the Radix Content element |\n| `disabled` | `boolean` | — | No | Disables the trigger |\n| `open` | `boolean` | — | No | Controlled open state |\n| `onOpenChange` | `(isOpen: boolean) => void` | — | No | Callback when open state changes |\n| `children` | `ReactNode` | — | No | Dropdown.Item elements |\n\n### Dropdown.Item\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `onClick` | `() => void` | — | No | Click handler |\n| `disabled` | `boolean` | — | No | Disables the item |\n| `className` | `string` | — | No | Additional CSS classes |\n| `children` | `ReactNode` | — | No | Item content |\n\n## Usage\n\n### Basic\n```tsx\n<Dropdown trigger={<Button>Open Menu</Button>}>\n  <Dropdown.Item onClick={() => console.log('Edit')}>Edit</Dropdown.Item>\n  <Dropdown.Item onClick={() => console.log('Duplicate')}>Duplicate</Dropdown.Item>\n  <Dropdown.Item onClick={() => console.log('Delete')}>Delete</Dropdown.Item>\n</Dropdown>\n```\n\n### Trigger as function (receives open state)\n```tsx\n<Dropdown\n  trigger={({ open }) => (\n    <Button endIcon={open ? 'i-bolt:chevron-up' : 'i-bolt:chevron-down'}>\n      Actions\n    </Button>\n  )}\n>\n  <Dropdown.Item>View</Dropdown.Item>\n  <Dropdown.Item>Edit</Dropdown.Item>\n</Dropdown>\n```\n\n### With disabled items\n```tsx\n<Dropdown trigger={<Button>Actions</Button>}>\n  <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>\n  <Dropdown.Item disabled>Export (unavailable)</Dropdown.Item>\n  <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>\n</Dropdown>\n```\n\n### Controlled open state\n```tsx\nconst [open, setOpen] = useState(false);\n\n<Dropdown\n  open={open}\n  onOpenChange={setOpen}\n  trigger={<Button>Controlled</Button>}\n>\n  <Dropdown.Item onClick={() => setOpen(false)}>Close me</Dropdown.Item>\n</Dropdown>\n```\n\n## Notes\n- Built on `@radix-ui/react-dropdown-menu`\n- Content uses `sideOffset={4}`, animated open/close transitions\n- Content width is at minimum the trigger's width (`min-w-[--radix-dropdown-menu-trigger-width]`)\n- Content max height respects available space (`max-h-[--radix-dropdown-menu-content-available-height]`)\n- Items styled with `hover:bg-bolt-ds-surfaceHighlight`, disabled items shown at 50% opacity\n",
+          "keywords": [
+            "dropdown",
+            "menu",
+            "select",
+            "popover",
+            "context-menu"
+          ]
+        },
+        {
+          "name": "IconDecoration",
+          "docs": "# IconDecoration\n\nA decorative container for icons with tint styling. Used in empty states, feature highlights, and visual callouts. Supports multiple variants, sizes, and shapes.\n\n## Import\n\n```tsx\nimport { IconDecoration } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `icon` | `string` | — | Yes | UnoCSS icon class (e.g., `i-heroicons:star`) |\n| `variant` | `'default' \\| 'brand' \\| 'success' \\| 'warning' \\| 'danger' \\| 'neutral'` | `'neutral'` | No | Color variant |\n| `size` | `'xs' \\| 'sm' \\| 'md' \\| 'lg' \\| 'xl'` | `'md'` | No | Size of the container |\n| `shape` | `'rounded' \\| 'squircle' \\| 'circle'` | `'squircle'` | No | Shape of the container |\n| `iconClassName` | `string` | — | No | Additional classes applied to the inner icon span |\n| `className` | `string` | — | No | Additional CSS classes for the container |\n\n## Variants\n\n| Variant | Background | Text/Icon Color |\n|---------|-----------|----------------|\n| `neutral` | `bg-bolt-ds-surfaceHighlight` | `text-bolt-ds-iconSecondary` |\n| `brand` | `bg-bolt-ds-brandContainer` | `text-bolt-ds-onBrandContainer` |\n| `success` | `bg-bolt-ds-successContainer` | `text-bolt-ds-onSuccessContainer` |\n| `warning` | `bg-bolt-ds-warningContainer` | `text-bolt-ds-onWarningContainer` |\n| `danger` | `bg-bolt-ds-dangerContainer` | `text-bolt-ds-onDangerContainer` |\n| `default` | `bg-bolt-ds-surfaceOne` | `text-bolt-ds-textPrimary` |\n\n## Sizes\n\n| Size | Container | Icon |\n|------|-----------|------|\n| `xs` | 24px | 14px |\n| `sm` | 32px | 16px |\n| `md` | 40px | 20px |\n| `lg` | 48px | 24px |\n| `xl` | 64px | 32px |\n\n## Shapes\n\n| Shape | Border Radius |\n|-------|---------------|\n| `rounded` | `rounded-lg` |\n| `squircle` | `rounded-[20%]` (default) |\n| `circle` | `rounded-full` |\n\n## Usage\n\n### Basic\n```tsx\n<IconDecoration icon=\"i-heroicons:star\" />\n```\n\n### With variant and size\n```tsx\n<IconDecoration\n  icon=\"i-heroicons:check-circle\"\n  variant=\"success\"\n  size=\"lg\"\n/>\n\n<IconDecoration\n  icon=\"i-heroicons:exclamation-triangle\"\n  variant=\"warning\"\n  size=\"md\"\n/>\n\n<IconDecoration\n  icon=\"i-heroicons:sparkles\"\n  variant=\"brand\"\n  size=\"xl\"\n  shape=\"circle\"\n/>\n```\n\n### In an empty state\n```tsx\n<div className=\"flex flex-col items-center gap-4 py-12\">\n  <IconDecoration\n    icon=\"i-heroicons:inbox\"\n    variant=\"neutral\"\n    size=\"xl\"\n  />\n  <h3>No items yet</h3>\n  <p>Add your first item to get started.</p>\n</div>\n```\n\n## Notes\n- Forwards refs to the underlying `div`\n- Accepts all standard `HTMLAttributes<HTMLDivElement>` props\n- Icon span has `aria-hidden=\"true\"` for accessibility\n- `iconDecorationVariants` is also exported for advanced use with `class-variance-authority`\n",
+          "keywords": [
+            "icon",
+            "decoration",
+            "container",
+            "empty-state",
+            "callout"
+          ]
+        },
+        {
+          "name": "Tooltip",
+          "docs": "# Tooltip\n\nA composable tooltip built on Radix UI's Tooltip primitive. Re-exports `Arrow`, `Portal`, `Provider`, `Root`, and `Trigger` from `@radix-ui/react-tooltip` with a custom styled `Content` component.\n\n## Import\n\n```tsx\nimport { Provider, Root, Trigger, Portal, Arrow, Content } from '@blitz/design-system/Tooltip';\n// or via named re-export from Tooltip module:\nimport * as Tooltip from '@blitz/design-system';\n// Tooltip.Provider, Tooltip.Root, Tooltip.Trigger, Tooltip.Content, etc.\n```\n\n## Components\n\n### Content (custom)\n\nThe only custom component — provides Bolt DS styling.\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | — | Tooltip content |\n| `truncate` | `boolean` | — | Truncate long content |\n| `hideArrow` | `boolean` | — | Hide the arrow pointer |\n| `maxWidth` | `string \\| number` | — | Constrain content width |\n| `surface` | `'1' \\| '2' \\| '3'` | — | Surface level matching the trigger container elevation |\n| `side` | `'top' \\| 'right' \\| 'bottom' \\| 'left'` | `'top'` | Placement side |\n| `align` | `'start' \\| 'center' \\| 'end'` | `'center'` | Alignment relative to trigger |\n| `sideOffset` | `number` | — | Distance from trigger |\n| `alignOffset` | `number` | — | Alignment offset |\n| `avoidCollisions` | `boolean` | — | Auto-flip when near viewport edge |\n| `collisionPadding` | `number \\| object` | — | Padding around viewport for collision detection |\n\n### Provider (from Radix)\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `delayDuration` | `number` | `700` | Delay in ms before tooltip opens |\n| `skipDelayDuration` | `number` | `300` | Time to skip delay when quickly moving between triggers |\n| `disableHoverableContent` | `boolean` | `false` | Prevent hovering into tooltip content from keeping it open |\n\n### Root (from Radix)\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `open` | `boolean` | — | Controlled open state |\n| `defaultOpen` | `boolean` | — | Uncontrolled initial open state |\n| `onOpenChange` | `(open: boolean) => void` | — | Open state callback |\n| `delayDuration` | `number` | `700` | Overrides Provider delay |\n| `disableHoverableContent` | `boolean` | `false` | Overrides Provider setting |\n\n### Trigger (from Radix)\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `asChild` | `boolean` | Merge props onto child element |\n\n## Usage\n\n### Basic tooltip\n```tsx\nimport { Provider, Root, Trigger, Portal, Content } from '@blitz/design-system/Tooltip';\n\n<Provider>\n  <Root>\n    <Trigger asChild>\n      <Button>Hover me</Button>\n    </Trigger>\n    <Portal>\n      <Content side=\"top\">\n        Helpful tooltip text\n      </Content>\n    </Portal>\n  </Root>\n</Provider>\n```\n\n### Position variants\n```tsx\n// side can be: top, right, bottom, left\n<Content side=\"bottom\" sideOffset={6}>Bottom tooltip</Content>\n<Content side=\"right\" align=\"start\">Right-aligned</Content>\n```\n\n### Surface levels\n```tsx\n// Match surface to the container's elevation\n<Content surface=\"1\">Surface 1 tooltip</Content>\n<Content surface=\"2\">Surface 2 tooltip</Content>\n<Content surface=\"3\">Surface 3 tooltip</Content>\n```\n\n### Without arrow and with max width\n```tsx\n<Content hideArrow maxWidth={200}>\n  This tooltip has no arrow and is constrained to 200px width.\n</Content>\n```\n\n### Wrap Provider at app or section level\n```tsx\n// Place Provider high in the tree to share tooltip behavior\n<Provider delayDuration={300}>\n  <App />\n</Provider>\n```\n\n## Notes\n- `Provider` should wrap usage context (can be app root or section)\n- `Portal` renders the tooltip outside the DOM hierarchy to avoid overflow clipping\n- `Trigger asChild` merges tooltip behavior onto the child element without adding a wrapper DOM node\n- The `Button` component has a built-in `tooltip` prop for convenience (see Button docs)\n",
+          "keywords": [
+            "tooltip",
+            "popover",
+            "hint",
+            "overlay",
+            "help"
+          ]
+        },
+        {
+          "name": "Dialog",
+          "docs": "# Dialog\n\nA modal dialog built on Radix UI's Dialog primitive with Framer Motion animations. Includes sub-components for composable layout: header (text or image), content, and actions.\n\n## Import\n\n```tsx\nimport {\n  Dialog,\n  DialogHeader,\n  DialogImageHeader,\n  DialogContent,\n  DialogActions,\n  DialogButton,\n  DialogClose,\n  HiddenDialogTitle,\n} from '@blitz/design-system';\n```\n\n## Sub-components\n\n### Dialog\n\nThe root container. Manages open state, backdrop, close button, and Framer Motion animations.\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `open` | `boolean` | — | Yes | Controls dialog visibility |\n| `onClose` | `() => void` | — | No | Called when dialog should close |\n| `children` | `ReactNode \\| ReactNode[]` | — | Yes | Dialog content |\n| `width` | `string \\| number` | `'90vw'` | No | Dialog width |\n| `height` | `string \\| number` | — | No | Dialog height |\n| `maxWidth` | `string \\| number` | — | No | Maximum dialog width |\n| `maxHeight` | `string \\| number` | `'85vh'` | No | Maximum dialog height |\n| `showCloseButton` | `boolean` | `true` | No | Show the X close button |\n| `closeOnBackdropClick` | `boolean` | `true` | No | Close when backdrop is clicked |\n| `closeOnEscape` | `boolean` | `true` | No | Close when Escape is pressed |\n| `showOverflow` | `boolean` | `false` | No | Allow content overflow (scroll) |\n| `modal` | `boolean` | — | No | When true, disables outside interaction |\n| `unstyled` | `boolean` | `false` | No | Remove default border/background/shadow |\n| `portalContainer` | `Element` | — | No | Custom portal container |\n| `contentClassName` | `string` | — | No | Class for inner content wrapper |\n| `backdropClassName` | `string` | — | No | Class for the backdrop overlay |\n| `closeButtonClassName` | `string` | `''` | No | Class for the close button |\n| `closeButtonProps` | `ButtonProps` | — | No | Props for the close button |\n| `data-testid` | `string` | — | No | Test ID |\n\n### DialogHeader\n\nHeader section with optional badge, title, description, and back button.\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `title` | `ReactNode` | — | No | Dialog title (rendered as accessible heading) |\n| `description` | `ReactNode` | — | No | Description rendered below title |\n| `badge` | `BadgeType` | — | No | Color variant for the icon badge above title |\n| `badgeIcon` | `string` | — | No | UnoCSS icon class for the badge. Falls back to default icon per badge type |\n| `onBack` | `VoidFunction` | — | No | Shows a back arrow button. Useful for multi-step dialogs |\n| `noBorder` | `boolean` | `false` | No | Remove bottom border between header and content |\n| `unstyled` | `boolean` | `false` | No | Remove all default header styles |\n| `className` | `string` | — | No | Class for inner header div |\n| `wrapperClassName` | `string` | — | No | Class for the title/description wrapper |\n\n### DialogImageHeader\n\nHeader with a full-width background image above the title and description.\n\n| Prop | Type | Required | Description |\n|------|------|----------|-------------|\n| `src` | `string` | Yes | Image URL |\n| `title` | `ReactNode` | No | Dialog title |\n| `description` | `ReactNode` | No | Description |\n\n### DialogContent\n\nScrollable content area. Maps to Radix `Dialog.Description`.\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `children` | `ReactNode` | — | Yes | Content |\n| `unstyled` | `boolean` | `false` | No | Remove default text styles |\n| `noPadding` | `boolean` | `false` | No | Remove default `p-6` padding |\n| `className` | `string` | — | No | Additional CSS classes |\n\n### DialogActions\n\nAction button container (usually at the bottom).\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `children` | `ReactNode` | — | Yes | Button elements |\n| `orientation` | `'horizontal' \\| 'vertical'` | `'horizontal'` | No | Button layout direction |\n| `actionSize` | `'compact' \\| 'fullwidth'` | `'compact'` | No | `compact`: buttons hug content; `fullwidth`: buttons share width equally |\n| `className` | `string` | — | No | Additional CSS classes |\n\n### DialogButton\n\nA `Button` pre-configured for dialog actions.\n\nAccepts all `ButtonProps` — see Button documentation.\n\n### DialogClose\n\nRe-export of `@radix-ui/react-dialog` `Close`. Wrap around any element to make it close the dialog.\n\n### HiddenDialogTitle\n\nProvides an accessible title for screen readers without visually rendering it.\n\n| Prop | Type | Description |\n|------|------|-------------|\n| `children` | `ReactNode` | Title text (visually hidden) |\n\n## Usage\n\n### Basic dialog\n```tsx\nconst [open, setOpen] = useState(false);\n\n<Dialog open={open} onClose={() => setOpen(false)} maxWidth={480}>\n  <DialogHeader title=\"Confirm action\" description=\"Are you sure you want to proceed?\" />\n  <DialogContent>\n    <p>This action cannot be undone.</p>\n  </DialogContent>\n  <DialogActions>\n    <DialogButton variant=\"secondary\" onClick={() => setOpen(false)}>Cancel</DialogButton>\n    <DialogButton variant=\"primary\" tint=\"danger\" onClick={handleConfirm}>Delete</DialogButton>\n  </DialogActions>\n</Dialog>\n```\n\n### With badge (status dialog)\n```tsx\n<Dialog open={open} onClose={() => setOpen(false)} maxWidth={440}>\n  <DialogHeader\n    title=\"Delete workspace\"\n    description=\"This will permanently delete all data.\"\n    badge=\"danger\"\n    badgeIcon=\"i-heroicons:trash\"\n  />\n  <DialogActions>\n    <DialogButton variant=\"secondary\" onClick={() => setOpen(false)}>Cancel</DialogButton>\n    <DialogButton variant=\"primary\" tint=\"danger\">Delete</DialogButton>\n  </DialogActions>\n</Dialog>\n```\n\n### Multi-step dialog with back button\n```tsx\n<Dialog open={open} onClose={() => setOpen(false)} maxWidth={560}>\n  <DialogHeader\n    title=\"Step 2 of 3\"\n    description=\"Configure your settings.\"\n    onBack={() => setStep(1)}\n  />\n  <DialogContent>\n    {/* step content */}\n  </DialogContent>\n  <DialogActions>\n    <DialogButton variant=\"secondary\" onClick={() => setOpen(false)}>Cancel</DialogButton>\n    <DialogButton variant=\"primary\">Next</DialogButton>\n  </DialogActions>\n</Dialog>\n```\n\n### Image header dialog\n```tsx\n<Dialog open={open} onClose={() => setOpen(false)} maxWidth={520}>\n  <DialogImageHeader\n    src=\"/feature-preview.png\"\n    title=\"New feature available\"\n    description=\"See what's new in the latest release.\"\n  />\n  <DialogActions>\n    <DialogButton variant=\"primary\">Learn more</DialogButton>\n  </DialogActions>\n</Dialog>\n```\n\n### Hidden title (accessibility)\n```tsx\n<Dialog open={open} onClose={() => setOpen(false)}>\n  <HiddenDialogTitle>Image preview</HiddenDialogTitle>\n  <DialogContent noPadding>\n    <img src=\"/photo.jpg\" alt=\"Preview\" />\n  </DialogContent>\n</Dialog>\n```\n\n## Accessibility\n\n| Feature | Behavior |\n|---------|----------|\n| Focus trap | Focus is trapped inside the dialog while open. Tab and Shift+Tab cycle through focusable elements. |\n| Escape to close | Pressing Escape calls `onClose`. Disable with `closeOnEscape={false}`. |\n| ARIA attributes | `role=\"dialog\"`, `aria-modal=\"true\"`, and `aria-labelledby` are set automatically via Radix. |\n| Backdrop click | Clicking the backdrop calls `onClose`. Disable with `closeOnBackdropClick={false}`. |\n| Scroll lock | Body scroll is locked while the dialog is open. |\n| Hidden title | Use `HiddenDialogTitle` when you need a title for screen readers but don't want `DialogHeader`. |\n\n## Guidelines\n\n- Use dialogs sparingly — they interrupt flow. Only use for focused attention or confirmation.\n- Always provide a clear way to close (button, Escape, backdrop).\n- Keep content concise. If it's very long, consider a dedicated page.\n- Use `maxWidth` in pixels: 400–500 for confirmations, 560–640 for forms.\n- Primary action goes on the right in horizontal layouts.\n- Use `badge` + `badgeIcon` on `DialogHeader` for status-type dialogs (warning, danger, success).\n- Pass `onBack` to `DialogHeader` for wizard-style multi-step dialogs.\n\n## Default icon per badge type\n\n| Badge type | Default icon |\n|------------|-------------|\n| `neutral` | `i-heroicons:information-circle` |\n| `brand` | `i-heroicons:sparkles` |\n| `success` | `i-heroicons:check-circle` |\n| `warning` | `i-heroicons:exclamation-triangle` |\n| `danger` | `i-heroicons:exclamation-circle` |\n",
+          "keywords": [
+            "dialog",
+            "modal",
+            "overlay",
+            "popup",
+            "confirmation"
+          ]
+        },
+        {
+          "name": "Table",
+          "docs": "# Table\n\nA styled HTML table for displaying tabular data. Wraps content in a scrollable container with design-token borders and backgrounds. Composed from semantic sub-components.\n\n## Import\n\n```tsx\nimport {\n  Table,\n  TableHeader,\n  TableBody,\n  TableFooter,\n  TableHead,\n  TableRow,\n  TableCell,\n} from '@blitz/design-system';\n```\n\n## Sub-components\n\n| Component | HTML Element | Description |\n|-----------|-------------|-------------|\n| `Table` | `<table>` | Root wrapper. Includes overflow-auto container. |\n| `TableHeader` | `<thead>` | Table header section. Adds bottom border to header rows. |\n| `TableBody` | `<tbody>` | Table body section. Removes border from last row. |\n| `TableFooter` | `<tfoot>` | Table footer with `bg-bolt-ds-surfaceThree/50` background. |\n| `TableRow` | `<tr>` | Row with bottom border and hover transition. |\n| `TableHead` | `<th>` | Header cell — muted tertiary text, fixed h-12 height, left-aligned. |\n| `TableCell` | `<td>` | Data cell with `p-4` padding, middle-aligned. |\n\nAll sub-components forward refs and accept the standard HTML attributes of their underlying element.\n\n## Props\n\n### Table\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `containerClassName` | `string` | — | No | Class for the outer overflow-auto container |\n| `className` | `string` | — | No | Class for the `<table>` element |\n| ...HTMLTableElement attrs | | | | All standard HTML table attributes |\n\nAll other sub-components accept the standard HTML attributes for their respective element type plus `className`.\n\n## Styling Details\n\n- **Container**: `border border-bolt-ds-borderDivider rounded-md overflow-auto w-full`\n- **Table**: `w-full caption-bottom text-sm`\n- **TableHeader**: Applies `border-b border-bolt-ds-borderDivider` to child rows\n- **TableBody**: Removes border from last child row\n- **TableFooter**: `border-t border-bolt-ds-borderDivider bg-bolt-ds-surfaceThree/50 font-medium`\n- **TableRow**: `border-b last:border-b-0 border-bolt-ds-borderDivider transition-colors`\n- **TableHead**: `bg-bolt-ds-surfaceOne text-xs text-bolt-ds-textTertiary px-4 py-3 border-b border-bolt-ds-borderDivider h-12 text-left`\n- **TableCell**: `p-4 align-middle`\n\n## Usage\n\n### Basic table\n```tsx\n<Table>\n  <TableHeader>\n    <TableRow>\n      <TableHead>Invoice</TableHead>\n      <TableHead>Status</TableHead>\n      <TableHead>Method</TableHead>\n      <TableHead>Amount</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow>\n      <TableCell>INV001</TableCell>\n      <TableCell>Paid</TableCell>\n      <TableCell>Credit Card</TableCell>\n      <TableCell>$250.00</TableCell>\n    </TableRow>\n    <TableRow>\n      <TableCell>INV002</TableCell>\n      <TableCell>Pending</TableCell>\n      <TableCell>PayPal</TableCell>\n      <TableCell>$150.00</TableCell>\n    </TableRow>\n  </TableBody>\n  <TableFooter>\n    <TableRow>\n      <TableCell colSpan={3}>Total</TableCell>\n      <TableCell>$400.00</TableCell>\n    </TableRow>\n  </TableFooter>\n</Table>\n```\n\n### Striped rows\n```tsx\n<Table>\n  <TableHeader>\n    <TableRow>\n      <TableHead>Name</TableHead>\n      <TableHead>Value</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    {items.map((item, i) => (\n      <TableRow\n        key={item.id}\n        className={i % 2 === 0 ? 'bg-bolt-ds-surfaceOne' : 'bg-bolt-ds-surfaceTwo'}\n      >\n        <TableCell>{item.name}</TableCell>\n        <TableCell>{item.value}</TableCell>\n      </TableRow>\n    ))}\n  </TableBody>\n</Table>\n```\n\n### Dense variant (compact padding)\n```tsx\n<Table>\n  <TableHeader>\n    <TableRow>\n      <TableHead className=\"py-1\">Name</TableHead>\n      <TableHead className=\"py-1\">Status</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    {rows.map(row => (\n      <TableRow key={row.id}>\n        <TableCell className=\"py-1\">{row.name}</TableCell>\n        <TableCell className=\"py-1\">{row.status}</TableCell>\n      </TableRow>\n    ))}\n  </TableBody>\n</Table>\n```\n\n### Fixed column widths\n```tsx\n<Table>\n  <TableHeader>\n    <TableRow>\n      <TableHead className=\"w-[100px]\">ID</TableHead>\n      <TableHead className=\"w-[200px]\">Name</TableHead>\n      <TableHead>Description</TableHead>\n    </TableRow>\n  </TableHeader>\n  {/* ... */}\n</Table>\n```\n\n### With Badge in cells\n```tsx\n<Table>\n  <TableHeader>\n    <TableRow>\n      <TableHead>Invoice</TableHead>\n      <TableHead>Status</TableHead>\n    </TableRow>\n  </TableHeader>\n  <TableBody>\n    <TableRow>\n      <TableCell>INV001</TableCell>\n      <TableCell><Badge type=\"success\">Paid</Badge></TableCell>\n    </TableRow>\n  </TableBody>\n</Table>\n```\n\n## Column Sizing Notes\n\n- The `Table` component wraps content in `overflow-auto` — it scrolls horizontally when columns exceed the viewport.\n- Never constrain the table to fit narrow containers; let it scroll.\n- Use explicit `w-[...]` classes on `TableHead` cells to set minimum column widths when needed.\n",
+          "keywords": [
+            "table",
+            "data",
+            "grid",
+            "list",
+            "tabular"
+          ]
+        },
+        {
+          "name": "DefaultLoader",
+          "docs": "# DefaultLoader\n\nA simple animated spinner component. Used as the default loading indicator inside `Button` when `loading={true}`, but can also be used standalone.\n\n## Import\n\n```tsx\nimport { DefaultLoader } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `size` | `'lg' \\| 'md' \\| 'sm' \\| 'xs'` | — | No | Size variant — affects scale of the spinner |\n| `className` | `string` | — | No | Additional CSS classes |\n\n## Size Scale\n\n| Size | Scale Transform |\n|------|-----------------|\n| `lg` | `scale-150` |\n| `md` | `scale-125` |\n| `sm` | `scale-115` |\n| `xs` | none |\n\n## Usage\n\n### Standalone spinner\n```tsx\n<DefaultLoader />\n```\n\n### With size\n```tsx\n<DefaultLoader size=\"lg\" />\n<DefaultLoader size=\"md\" />\n```\n\n### With custom className\n```tsx\n<DefaultLoader className=\"text-bolt-ds-brand\" />\n```\n\n### As Button loader (automatic)\n```tsx\n// DefaultLoader is used automatically when loading={true} on Button\n<Button loading>Saving...</Button>\n\n// Or pass a custom loader to Button:\n<Button loading loader={<DefaultLoader size=\"sm\" className=\"text-white\" />}>\n  Saving...\n</Button>\n```\n\n## Notes\n- Renders as a `<span>` with class `i-svg-spinners:90-ring-with-bg` (requires UnoCSS icon system)\n- The `i-svg-spinners:90-ring-with-bg` icon is an animated SVG spinner\n- When used inside `Button` with `loading={true}`, it's positioned absolutely centered and the button label is made invisible (`op-0`), maintaining button width\n",
+          "keywords": [
+            "loader",
+            "spinner",
+            "loading",
+            "progress",
+            "animation"
+          ]
+        },
+        {
+          "name": "OptionCard",
+          "docs": "# OptionCard\n\nA card component for displaying an option with a title, optional description, and an action element. Commonly used inside an `OptionCardGroup` to present a list of settings or choices.\n\n## Import\n\n```tsx\nimport { OptionCard, OptionCardGroup } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `title` | `string` | — | Yes | Main label for the option |\n| `description` | `ReactNode` | — | No | Secondary text or node below the title |\n| `action` | `ReactNode` | — | Yes | Action element displayed on the right (e.g. Switch, Button, Checkbox) |\n| `id` | `string` | — | No | HTML id, useful for associating the label with the action control |\n| `className` | `string` | — | No | Additional CSS classes |\n\n## Usage\n\n```tsx\nimport { OptionCard, OptionCardGroup, Switch } from '@blitz/design-system';\n\nfunction Settings() {\n  return (\n    <OptionCardGroup>\n      <OptionCard\n        id=\"notifications\"\n        title=\"Notifications\"\n        description=\"Receive email notifications\"\n        action={<Switch id=\"notifications\" />}\n      />\n      <OptionCard\n        id=\"dark-mode\"\n        title=\"Dark Mode\"\n        description=\"Use dark color theme\"\n        action={<Switch id=\"dark-mode\" />}\n      />\n    </OptionCardGroup>\n  );\n}\n```\n\n## Layout\n\nOptionCard uses a flex row layout with:\n- Title and description on the left (min-w-0 for text truncation)\n- Action element on the right (shrink-0 to prevent squishing)\n- `gap-8` between left and right sections\n- `py-4` vertical padding\n\n## Styling\n\n- Title: `text-sm font-medium text-bolt-ds-textPrimary`\n- Description: `text-sm text-bolt-ds-textSecondary mt-0.5`\n\n## Related\n\n- Use inside `OptionCardGroup` for divider-separated lists\n- Pair with `Switch`, `Checkbox`, or `Button` as the action element",
+          "keywords": [
+            "option",
+            "card",
+            "settings",
+            "choice",
+            "toggle"
+          ]
+        },
+        {
+          "name": "OptionCardGroup",
+          "docs": "# OptionCardGroup\n\nA container component that wraps multiple `OptionCard` components with divider lines between them.\n\n## Import\n\n```tsx\nimport { OptionCardGroup } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Required | Description |\n|------|------|---------|----------|-------------|\n| `children` | `ReactNode` | — | Yes | OptionCard elements to render |\n| `className` | `string` | — | No | Additional CSS classes |\n\n## Usage\n\n```tsx\nimport { OptionCard, OptionCardGroup, Switch, Checkbox } from '@blitz/design-system';\n\nfunction SettingsPanel() {\n  return (\n    <OptionCardGroup>\n      <OptionCard\n        title=\"Auto-save\"\n        description=\"Automatically save changes\"\n        action={<Switch />}\n      />\n      <OptionCard\n        title=\"Show line numbers\"\n        action={<Checkbox />}\n      />\n      <OptionCard\n        title=\"Enable spell check\"\n        description=\"Check spelling as you type\"\n        action={<Switch />}\n      />\n    </OptionCardGroup>\n  );\n}\n```\n\n## Styling\n\nApplies `divide-y divide-bolt-ds-borderDivider` to create horizontal dividers between child OptionCards.",
+          "keywords": [
+            "option",
+            "card",
+            "group",
+            "settings",
+            "list"
+          ]
+        }
+      ]
+    },
+    "tokens": {
+      "description": "Semantic design tokens (CSS custom properties) with light and dark theme values",
+      "taggable": true,
+      "items": [
+        {
+          "name": "bolt-ds-brand",
+          "docs": "Primary brand color used for interactive elements, links, and CTAs\nValue: light: #2ba6ff, dark: #1488fc",
+          "keywords": [
+            "brand",
+            "primary",
+            "accent"
+          ]
+        },
+        {
+          "name": "bolt-ds-brandHighlight",
+          "docs": "Highlighted or hover state of the brand color\nValue: light: #53c4ff, dark: #2ba6ff",
+          "keywords": [
+            "brand",
+            "highlight",
+            "hover"
+          ]
+        },
+        {
+          "name": "bolt-ds-onBrand",
+          "docs": "Text or icon color placed on top of brand-colored backgrounds\nValue: light: #ffffff, dark: #eef9ff",
+          "keywords": [
+            "brand",
+            "on",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-brandContainer",
+          "docs": "Subtle background container using brand color tint\nValue: light: #eef9ff, dark: #2ba6ff1a",
+          "keywords": [
+            "brand",
+            "container",
+            "background"
+          ]
+        },
+        {
+          "name": "bolt-ds-onBrandContainer",
+          "docs": "Text or icon color for content placed inside brand containers\nValue: light: #122f59, dark: #2ba6ff",
+          "keywords": [
+            "brand",
+            "container",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-brandOutline",
+          "docs": "Outline or border using a translucent brand color\nValue: light: #2ba6ff33, dark: #2ba6ff1a",
+          "keywords": [
+            "brand",
+            "outline",
+            "border"
+          ]
+        },
+        {
+          "name": "bolt-ds-surface",
+          "docs": "Default page/app background surface color\nValue: light: #fefeff, dark: #111114",
+          "keywords": [
+            "surface",
+            "background",
+            "base"
+          ]
+        },
+        {
+          "name": "bolt-ds-surfaceAltLight",
+          "docs": "Alternate light surface, slightly elevated from the base surface\nValue: light: #f3f3f8, dark: #1e1e21",
+          "keywords": [
+            "surface",
+            "alternate",
+            "light"
+          ]
+        },
+        {
+          "name": "bolt-ds-surfaceAltDark",
+          "docs": "Alternate dark surface variant for use in elevated or contrast contexts\nValue: light: #f3f3f8, dark: #111114",
+          "keywords": [
+            "surface",
+            "alternate",
+            "dark"
+          ]
+        },
+        {
+          "name": "bolt-ds-surfaceOne",
+          "docs": "First elevation level surface, slightly raised from base\nValue: light: #fefeff, dark: #1e1e21",
+          "keywords": [
+            "surface",
+            "elevation",
+            "card"
+          ]
+        },
+        {
+          "name": "bolt-ds-surfaceTwo",
+          "docs": "Second elevation level surface for layered UI elements\nValue: light: #e9e9f0, dark: #2c2c30",
+          "keywords": [
+            "surface",
+            "elevation",
+            "layer"
+          ]
+        },
+        {
+          "name": "bolt-ds-surfaceThree",
+          "docs": "Third elevation level surface for tooltips or popovers\nValue: light: #d4d4dd, dark: #2c2c30",
+          "keywords": [
+            "surface",
+            "elevation",
+            "popover"
+          ]
+        },
+        {
+          "name": "bolt-ds-surfaceHighlight",
+          "docs": "Subtle overlay highlight on surfaces for hover/focus states\nValue: light: #0000000d, dark: #ffffff14",
+          "keywords": [
+            "surface",
+            "highlight",
+            "overlay"
+          ]
+        },
+        {
+          "name": "bolt-ds-inverseSurface",
+          "docs": "Inverted surface color used for snackbars, tooltips on opposite theme\nValue: light: #1e1e21, dark: #fefeff",
+          "keywords": [
+            "surface",
+            "inverse",
+            "contrast"
+          ]
+        },
+        {
+          "name": "bolt-ds-inverseOnSurface",
+          "docs": "Text or icon color placed on inverse surface backgrounds\nValue: light: #fefeff, dark: #1e1e21",
+          "keywords": [
+            "surface",
+            "inverse",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-textPrimary",
+          "docs": "Primary text color for main body content and headings\nValue: light: #111114, dark: #fefeff",
+          "keywords": [
+            "text",
+            "primary",
+            "heading"
+          ]
+        },
+        {
+          "name": "bolt-ds-textSecondary",
+          "docs": "Secondary text color for supporting content, captions, and labels\nValue: light: #0a0a0abf, dark: #ffffffbf",
+          "keywords": [
+            "text",
+            "secondary",
+            "caption"
+          ]
+        },
+        {
+          "name": "bolt-ds-textTertiary",
+          "docs": "Tertiary text color for placeholder and low-priority information\nValue: light: #0a0a0a99, dark: #ffffff99",
+          "keywords": [
+            "text",
+            "tertiary",
+            "placeholder"
+          ]
+        },
+        {
+          "name": "bolt-ds-iconPrimary",
+          "docs": "Primary icon color matching primary text in contrast\nValue: light: #111114, dark: #fefeff",
+          "keywords": [
+            "icon",
+            "primary",
+            "color"
+          ]
+        },
+        {
+          "name": "bolt-ds-iconSecondary",
+          "docs": "Secondary icon color for decorative or lower-priority icons\nValue: light: #0a0a0a80, dark: #ffffff80",
+          "keywords": [
+            "icon",
+            "secondary",
+            "muted"
+          ]
+        },
+        {
+          "name": "bolt-ds-borderOutline",
+          "docs": "Subtle outline border color for separating UI sections\nValue: light: #0000001a, dark: #ffffff1a",
+          "keywords": [
+            "border",
+            "outline",
+            "subtle"
+          ]
+        },
+        {
+          "name": "bolt-ds-borderDivider",
+          "docs": "Slightly stronger divider color between content areas\nValue: light: #00000026, dark: #ffffff26",
+          "keywords": [
+            "border",
+            "divider",
+            "separator"
+          ]
+        },
+        {
+          "name": "bolt-ds-success",
+          "docs": "Success state color for positive feedback and confirmation\nValue: light: #22c55e, dark: #16a34a",
+          "keywords": [
+            "success",
+            "positive",
+            "green"
+          ]
+        },
+        {
+          "name": "bolt-ds-successHighlight",
+          "docs": "Highlighted or hover variant of the success color\nValue: light: #4ade80, dark: #22c55e",
+          "keywords": [
+            "success",
+            "highlight",
+            "hover"
+          ]
+        },
+        {
+          "name": "bolt-ds-onSuccess",
+          "docs": "Text or icon color placed on success-colored backgrounds\nValue: light: #f0fdf4, dark: #f0fdf4",
+          "keywords": [
+            "success",
+            "on",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-successContainer",
+          "docs": "Subtle background container using success color tint\nValue: light: #f0fdf4, dark: #22c55e1a",
+          "keywords": [
+            "success",
+            "container",
+            "background"
+          ]
+        },
+        {
+          "name": "bolt-ds-onSuccessContainer",
+          "docs": "Text or icon color for content inside success containers\nValue: light: #052e16, dark: #22c55e",
+          "keywords": [
+            "success",
+            "container",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-successOutline",
+          "docs": "Translucent outline for success-themed borders\nValue: light: #22c55e33, dark: #22c55e1a",
+          "keywords": [
+            "success",
+            "outline",
+            "border"
+          ]
+        },
+        {
+          "name": "bolt-ds-warning",
+          "docs": "Warning state color for cautionary feedback and alerts\nValue: light: #f97316, dark: #ea580c",
+          "keywords": [
+            "warning",
+            "caution",
+            "orange"
+          ]
+        },
+        {
+          "name": "bolt-ds-warningHighlight",
+          "docs": "Highlighted or hover variant of the warning color\nValue: light: #fb923c, dark: #f97316",
+          "keywords": [
+            "warning",
+            "highlight",
+            "hover"
+          ]
+        },
+        {
+          "name": "bolt-ds-onWarning",
+          "docs": "Text or icon color placed on warning-colored backgrounds\nValue: light: #fff7ed, dark: #fff7ed",
+          "keywords": [
+            "warning",
+            "on",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-warningContainer",
+          "docs": "Subtle background container using warning color tint\nValue: light: #fff7ed, dark: #f973161a",
+          "keywords": [
+            "warning",
+            "container",
+            "background"
+          ]
+        },
+        {
+          "name": "bolt-ds-onWarningContainer",
+          "docs": "Text or icon color for content inside warning containers\nValue: light: #431407, dark: #f97316",
+          "keywords": [
+            "warning",
+            "container",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-warningOutline",
+          "docs": "Translucent outline for warning-themed borders\nValue: light: #f9731633, dark: #f973161a",
+          "keywords": [
+            "warning",
+            "outline",
+            "border"
+          ]
+        },
+        {
+          "name": "bolt-ds-danger",
+          "docs": "Danger/error state color for destructive actions and error feedback\nValue: light: #ef4444, dark: #ef4444",
+          "keywords": [
+            "danger",
+            "error",
+            "red"
+          ]
+        },
+        {
+          "name": "bolt-ds-dangerHighlight",
+          "docs": "Highlighted or hover variant of the danger color\nValue: light: #f87171, dark: #f87171",
+          "keywords": [
+            "danger",
+            "highlight",
+            "hover"
+          ]
+        },
+        {
+          "name": "bolt-ds-onDanger",
+          "docs": "Text or icon color placed on danger-colored backgrounds\nValue: light: #fef2f2, dark: #fef2f2",
+          "keywords": [
+            "danger",
+            "on",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-dangerContainer",
+          "docs": "Subtle background container using danger color tint\nValue: light: #fef2f2, dark: #ef44441a",
+          "keywords": [
+            "danger",
+            "container",
+            "background"
+          ]
+        },
+        {
+          "name": "bolt-ds-onDangerContainer",
+          "docs": "Text or icon color for content inside danger containers\nValue: light: #450a0a, dark: #f87171",
+          "keywords": [
+            "danger",
+            "container",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-dangerOutline",
+          "docs": "Translucent outline for danger-themed borders\nValue: light: #ef444433, dark: #ef44441a",
+          "keywords": [
+            "danger",
+            "outline",
+            "border"
+          ]
+        },
+        {
+          "name": "bolt-ds-neutral",
+          "docs": "Neutral color for secondary actions and inactive states\nValue: light: #525258, dark: #3c3c41",
+          "keywords": [
+            "neutral",
+            "secondary",
+            "gray"
+          ]
+        },
+        {
+          "name": "bolt-ds-neutralHighlight",
+          "docs": "Highlighted or hover variant of the neutral color\nValue: light: #a3a3ac, dark: #73737b",
+          "keywords": [
+            "neutral",
+            "highlight",
+            "hover"
+          ]
+        },
+        {
+          "name": "bolt-ds-onNeutral",
+          "docs": "Text or icon color placed on neutral-colored backgrounds\nValue: light: #fefeff, dark: #f3f3f8",
+          "keywords": [
+            "neutral",
+            "on",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-neutralContainer",
+          "docs": "Subtle background container using neutral color tint\nValue: light: #fafafd, dark: #1e1e21",
+          "keywords": [
+            "neutral",
+            "container",
+            "background"
+          ]
+        },
+        {
+          "name": "bolt-ds-onNeutralContainer",
+          "docs": "Text or icon color for content inside neutral containers\nValue: light: #111114, dark: #a3a3ac",
+          "keywords": [
+            "neutral",
+            "container",
+            "text"
+          ]
+        },
+        {
+          "name": "bolt-ds-neutralOutline",
+          "docs": "Translucent outline for neutral-themed borders\nValue: light: #1111141a, dark: #ffffff0d",
+          "keywords": [
+            "neutral",
+            "outline",
+            "border"
+          ]
+        }
+      ]
+    },
+    "icons": {
+      "description": "Pre-built icon classes bundled in icons.css for use as UnoCSS utility classes",
+      "taggable": true,
+      "items": [
+        {
+          "name": "i-bolt:check",
+          "keywords": [
+            "check",
+            "tick",
+            "done",
+            "confirm"
+          ]
+        },
+        {
+          "name": "i-bolt:chevron-down",
+          "keywords": [
+            "chevron",
+            "down",
+            "arrow",
+            "expand"
+          ]
+        },
+        {
+          "name": "i-bolt:chevron-up",
+          "keywords": [
+            "chevron",
+            "up",
+            "arrow",
+            "collapse"
+          ]
+        },
+        {
+          "name": "i-bolt:minus",
+          "keywords": [
+            "minus",
+            "subtract",
+            "remove",
+            "indeterminate"
+          ]
+        },
+        {
+          "name": "i-svg-spinners:90-ring-with-bg",
+          "keywords": [
+            "spinner",
+            "loading",
+            "ring",
+            "animate"
+          ]
+        }
+      ]
+    },
+    "utilities": {
+      "description": "Helper functions and constants exported from the design system",
+      "taggable": false,
+      "items": [
+        {
+          "name": "classNames",
+          "docs": "A utility function for conditionally joining CSS class names together. Accepts any combination of strings, booleans, undefined values, arrays, or objects where keys are class names and values are booleans determining inclusion.\n\nUsage:\n```ts\nimport { classNames } from '@blitz/design-system/utils/classNames';\n\n// Strings\nclassNames('foo', 'bar'); // 'foo bar'\n\n// Conditionals via objects\nclassNames({ 'is-active': isActive, 'is-disabled': isDisabled });\n\n// Mixed usage\nclassNames('base-class', isActive && 'active', { 'bold': isBold });\n```\n\nSignature:\n```ts\nfunction classNames(...args: ClassNamesArg[]): string\ntype ClassNamesArg = undefined | boolean | string | Record<string, boolean | undefined> | ClassNamesArg[];\n```",
+          "keywords": [
+            "classnames",
+            "css",
+            "utility",
+            "conditional"
+          ]
+        },
+        {
+          "name": "cubicEasingFn",
+          "docs": "A cubic easing function for use in animations and transitions. Takes a normalized time value `t` (0 to 1) and returns an eased value. Can be used with Framer Motion or other animation libraries to produce smooth, natural-feeling motion.\n\nUsage:\n```ts\nimport { cubicEasingFn } from '@blitz/design-system/utils/easings';\n\n// Use as a custom easing in Framer Motion\nconst eased = cubicEasingFn(0.5);\n```\n\nSignature:\n```ts\nconst cubicEasingFn: (t: number) => number;\n```",
+          "keywords": [
+            "easing",
+            "animation",
+            "cubic",
+            "motion"
+          ]
+        },
+        {
+          "name": "TOAST_SELECTORS",
+          "docs": "A constant CSS selector string targeting the root Toastify container element. Useful for programmatically querying or styling toast notification containers.\n\nUsage:\n```ts\nimport { TOAST_SELECTORS } from '@blitz/design-system/utils/toast-selectors';\n\nconst container = document.querySelector(TOAST_SELECTORS);\n// TOAST_SELECTORS === '.Toastify'\n```\n\nSignature:\n```ts\nconst TOAST_SELECTORS: \".Toastify\";\n```",
+          "keywords": [
+            "toast",
+            "selector",
+            "notification",
+            "toastify"
+          ]
+        },
+        {
+          "name": "BoltDesignSystemProvider",
+          "docs": "# BoltDesignSystemProvider\n\nA provider component that wraps the application to supply required context for the Bolt Design System. Currently provides the Radix UI Tooltip provider.\n\n## Import\n\n```tsx\nimport { BoltDesignSystemProvider } from '@blitz/design-system';\n```\n\n## Props\n\n| Prop | Type | Default | Description |\n|------|------|---------|-------------|\n| `children` | `ReactNode` | — | Application content |\n| `tooltip` | `Omit<TooltipProviderProps, 'children'>` | — | Optional tooltip provider configuration (delayDuration, skipDelayDuration, etc.) |\n\n## Usage\n\nWrap your application root with `BoltDesignSystemProvider` to enable tooltip functionality and any future design system context:\n\n```tsx\nimport { BoltDesignSystemProvider } from '@blitz/design-system';\n\nfunction App() {\n  return (\n    <BoltDesignSystemProvider tooltip={{ delayDuration: 200 }}>\n      {/* Your application */}\n    </BoltDesignSystemProvider>\n  );\n}\n```\n\n## Notes\n\n- Required when using `Tooltip` or `Button` with `tooltip` prop\n- Should be placed near the root of your component tree\n- Passes through Radix UI Tooltip.Provider props via the `tooltip` prop",
+          "keywords": [
+            "provider",
+            "context",
+            "tooltip",
+            "wrapper"
+          ]
+        }
+      ]
+    }
+  }
+}
